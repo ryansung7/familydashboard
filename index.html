@@ -79,144 +79,144 @@
         }
     </style>
 </head>
-<body class="h-screen w-screen p-4 flex gap-4 bg-gradient-to-br from-slate-900 via-gray-900 to-black text-slate-100">
+<body class="h-[100dvh] w-screen p-2.5 flex gap-2.5 bg-gradient-to-br from-slate-900 via-gray-900 to-black text-slate-100">
 
-    <!-- Left Column: Clock, Weather, Alerts & Forecast (44% width) -->
-    <div class="flex flex-col w-[44%] h-full gap-4">
+    <!-- Left Column: Clock, Weather, Alerts & Forecast (38% width to maximize right pane) -->
+    <div class="flex flex-col w-[38%] h-full gap-2.5">
         
         <!-- Top Section: Location, 24hr Time with Seconds, English Date Only -->
-        <div class="glass-panel rounded-3xl p-6 flex flex-col justify-center h-[28%]">
-            <div class="flex items-center justify-between mb-1">
-                <div class="flex items-center gap-2 text-slate-300 text-lg md:text-xl font-medium truncate">
-                    <i class="fa-solid fa-location-dot text-blue-400"></i>
-                    <span>Tiu Keng Leng, Hong Kong <span class="text-slate-400 ml-1">(調景嶺, 香港)</span></span>
+        <div class="glass-panel rounded-2xl px-4 py-3 flex flex-col justify-between h-[28%]">
+            <div class="flex items-center justify-between gap-1">
+                <div class="flex items-center gap-1.5 text-slate-300 text-xs md:text-sm font-medium truncate">
+                    <i class="fa-solid fa-location-dot text-blue-400 shrink-0"></i>
+                    <span class="truncate">Tiu Keng Leng, HK <span class="text-slate-400">(調景嶺)</span></span>
                 </div>
-                <span id="weather-sync-status" class="text-xs text-slate-500 font-mono shrink-0">Syncing...</span>
+                <span id="weather-sync-status" class="text-[10px] text-slate-500 font-mono shrink-0">Syncing...</span>
             </div>
             
-            <!-- Live Clock in 24hr Format with Seconds -->
-            <div id="clock-time" class="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-none my-2 font-mono">
+            <!-- Live Clock in 24hr Format with Seconds (Scaled to fit narrower pane) -->
+            <div id="clock-time" class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-none my-0.5 font-mono">
                 --:--:--
             </div>
             
             <!-- English Date Only -->
-            <div class="text-2xl md:text-3xl text-slate-300 font-medium flex items-center">
+            <div class="text-base md:text-lg text-slate-300 font-medium flex items-center truncate">
                 <span id="clock-date-en">Loading date...</span>
             </div>
         </div>
 
         <!-- Current Weather Section -->
-        <div class="glass-panel rounded-3xl px-6 py-4 flex items-center justify-between h-[22%]">
-            <div class="flex items-center gap-3">
-                <span id="weather-temp" class="text-6xl md:text-7xl lg:text-8xl font-bold text-white tracking-tighter drop-shadow-md">--°C</span>
+        <div class="glass-panel rounded-2xl px-4 py-2.5 flex items-center justify-between h-[21%]">
+            <div class="flex items-center gap-2">
+                <span id="weather-temp" class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tighter drop-shadow-md">--°C</span>
             </div>
-            <div class="flex items-center gap-5">
-                <i id="weather-icon" class="fa-solid fa-spinner fa-spin text-5xl md:text-6xl text-blue-400 drop-shadow-lg"></i>
-                <div class="text-xl md:text-2xl text-slate-300 font-medium leading-relaxed border-l-2 border-slate-600 pl-5 flex flex-col items-start gap-2">
-                    <div id="weather-details-en" class="text-2xl font-semibold text-slate-200">Humidity: --%</div>
+            <div class="flex items-center gap-3">
+                <i id="weather-icon" class="fa-solid fa-spinner fa-spin text-3xl md:text-4xl text-blue-400 drop-shadow-lg shrink-0"></i>
+                <div class="text-slate-300 font-medium leading-tight border-l border-slate-600 pl-3 flex flex-col items-start gap-1.5">
+                    <div id="weather-details-en" class="text-sm md:text-base font-semibold text-slate-200 whitespace-nowrap">Humidity: --%</div>
                     <!-- Live Rain Probability Pill Badge -->
-                    <div class="flex items-center gap-2 text-lg md:text-xl text-cyan-300 font-semibold bg-slate-800/90 px-3.5 py-1 rounded-full border border-cyan-500/40 shadow-sm" title="Current Precipitation Probability">
-                        <i class="fa-solid fa-umbrella text-cyan-400 text-lg"></i>
+                    <div class="flex items-center gap-1.5 text-xs md:text-sm text-cyan-300 font-semibold bg-slate-800/90 px-2.5 py-0.5 rounded-full border border-cyan-500/40 shadow-sm" title="Current Precipitation Probability">
+                        <i class="fa-solid fa-umbrella text-cyan-400 text-xs"></i>
                         <span id="curr-pop-badge">--%</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Weather Alert Banner (English Only: "Weather Warnings") -->
-        <div id="alert-container" class="alert-panel rounded-2xl px-5 py-3 flex items-center justify-between h-[18%]">
-            <div class="flex items-center gap-2.5 text-slate-300 font-semibold text-base md:text-lg uppercase tracking-wider shrink-0">
-                <i class="fa-solid fa-triangle-exclamation text-amber-400 text-xl"></i>
+        <!-- Compact Weather Alert Banner -->
+        <div id="alert-container" class="alert-panel rounded-xl px-3.5 py-1.5 flex items-center justify-between gap-2 h-[11%]">
+            <div class="flex items-center gap-1.5 text-slate-300 font-semibold text-xs md:text-sm uppercase tracking-wider shrink-0">
+                <i class="fa-solid fa-triangle-exclamation text-amber-400 text-sm"></i>
                 <span>Weather Warnings</span>
             </div>
             
             <!-- Dynamic Alert Icons List -->
-            <div id="alert-icons-list" class="flex items-center gap-2.5 overflow-x-auto no-scrollbar py-1">
-                <div class="flex items-center gap-2 text-slate-400 text-sm md:text-base font-normal bg-slate-800/60 px-3.5 py-2 rounded-xl border border-slate-700/50">
-                    <i class="fa-solid fa-shield-halved text-emerald-400 text-lg"></i>
-                    <span>No active warning signals</span>
+            <div id="alert-icons-list" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+                <div class="flex items-center gap-1.5 text-slate-400 text-xs font-normal bg-slate-800/60 px-2.5 py-1 rounded-lg border border-slate-700/50 whitespace-nowrap">
+                    <i class="fa-solid fa-shield-halved text-emerald-400 text-xs"></i>
+                    <span>No active warnings</span>
                 </div>
             </div>
         </div>
 
         <!-- Forecast Section (3 Cards Grid: Afternoon 12:00, Night 18:00, Tomorrow 08:00) -->
-        <div class="h-[32%] flex flex-col justify-end">
-            <div class="flex items-center justify-between mb-2 px-2">
-                <div class="text-slate-400 font-bold uppercase tracking-widest text-base md:text-lg flex items-center gap-2">
+        <div class="h-[40%] flex flex-col justify-end min-h-0">
+            <div class="flex items-center justify-between mb-1 px-1 shrink-0">
+                <div class="text-slate-400 font-bold uppercase tracking-wider text-xs md:text-sm flex items-center gap-2">
                     <span>Forecast 天氣預報</span>
-                    <span id="precip-source-badge" class="text-xs font-normal text-cyan-400/90 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700">15m / Hourly Sync</span>
+                    <span id="precip-source-badge" class="text-[10px] font-normal text-cyan-400/90 bg-slate-800/80 px-1.5 py-0.5 rounded border border-slate-700">15m Sync</span>
                 </div>
             </div>
-            <div id="forecast-grid" class="flex-1 grid grid-cols-3 gap-2.5 h-full">
+            <div id="forecast-grid" class="flex-1 grid grid-cols-3 gap-2 min-h-0">
                 
                 <!-- Card 1: Afternoon 12:00 (今午) - Hides when time >= 12:00 -->
-                <div id="card-aft" class="glass-panel rounded-2xl flex flex-col items-center justify-between text-center p-2.5 transition-opacity duration-300">
-                    <div id="f1-date" class="text-slate-200 font-semibold text-xs md:text-sm border-b border-slate-700/60 pb-1 w-full truncate">
-                        <span id="f1-ddmmm" class="text-blue-400 font-bold mr-1">--</span>12:00 (今午)
+                <div id="card-aft" class="glass-panel rounded-xl flex flex-col items-center justify-between text-center p-2 transition-opacity duration-300 min-h-0">
+                    <div id="f1-date" class="text-slate-200 font-semibold text-[11px] border-b border-slate-700/60 pb-0.5 w-full truncate">
+                        <span id="f1-ddmmm" class="text-blue-400 font-bold mr-0.5">--</span>12:00
                     </div>
                     
-                    <div class="my-1 flex items-center justify-center">
-                        <i id="f1-icon" class="fa-solid fa-sun text-3xl md:text-4xl text-yellow-400 drop-shadow"></i>
+                    <div class="my-0.5 flex items-center justify-center">
+                        <i id="f1-icon" class="fa-solid fa-sun text-xl md:text-2xl text-yellow-400 drop-shadow"></i>
                     </div>
 
-                    <div id="f1-temp" class="text-xl md:text-2xl font-bold text-white tracking-wide">
+                    <div id="f1-temp" class="text-base md:text-lg font-bold text-white leading-tight">
                         --°C
                     </div>
 
-                    <div id="f1-rh" class="text-xs md:text-sm font-medium text-slate-300">
+                    <div id="f1-rh" class="text-[11px] font-medium text-slate-300 leading-tight">
                         --% RH
                     </div>
 
-                    <div class="flex items-center gap-1.5 text-xs md:text-sm text-cyan-300 font-medium bg-slate-800/80 px-2.5 py-0.5 rounded-full border border-slate-700/60">
-                        <i class="fa-solid fa-umbrella text-cyan-400 text-xs"></i>
+                    <div class="flex items-center gap-1 text-[11px] text-cyan-300 font-medium bg-slate-800/80 px-2 py-0.5 rounded-full border border-slate-700/60">
+                        <i class="fa-solid fa-umbrella text-cyan-400 text-[10px]"></i>
                         <span id="f1-psr">--%</span>
                     </div>
                 </div>
 
                 <!-- Card 2: Night 18:00 (今晚) - Hides when time >= 18:00 -->
-                <div id="card-night" class="glass-panel rounded-2xl flex flex-col items-center justify-between text-center p-2.5 transition-opacity duration-300">
-                    <div id="f2-date" class="text-slate-200 font-semibold text-xs md:text-sm border-b border-slate-700/60 pb-1 w-full truncate">
-                        <span id="f2-ddmmm" class="text-indigo-400 font-bold mr-1">--</span>18:00 (今晚)
+                <div id="card-night" class="glass-panel rounded-xl flex flex-col items-center justify-between text-center p-2 transition-opacity duration-300 min-h-0">
+                    <div id="f2-date" class="text-slate-200 font-semibold text-[11px] border-b border-slate-700/60 pb-0.5 w-full truncate">
+                        <span id="f2-ddmmm" class="text-indigo-400 font-bold mr-0.5">--</span>18:00
                     </div>
                     
-                    <div class="my-1 flex items-center justify-center">
-                        <i id="f2-icon" class="fa-solid fa-cloud-moon text-3xl md:text-4xl text-indigo-300 drop-shadow"></i>
+                    <div class="my-0.5 flex items-center justify-center">
+                        <i id="f2-icon" class="fa-solid fa-cloud-moon text-xl md:text-2xl text-indigo-300 drop-shadow"></i>
                     </div>
 
-                    <div id="f2-temp" class="text-xl md:text-2xl font-bold text-white tracking-wide">
+                    <div id="f2-temp" class="text-base md:text-lg font-bold text-white leading-tight">
                         --°C
                     </div>
 
-                    <div id="f2-rh" class="text-xs md:text-sm font-medium text-slate-300">
+                    <div id="f2-rh" class="text-[11px] font-medium text-slate-300 leading-tight">
                         --% RH
                     </div>
 
-                    <div class="flex items-center gap-1.5 text-xs md:text-sm text-cyan-300 font-medium bg-slate-800/80 px-2.5 py-0.5 rounded-full border border-slate-700/60">
-                        <i class="fa-solid fa-umbrella text-cyan-400 text-xs"></i>
+                    <div class="flex items-center gap-1 text-[11px] text-cyan-300 font-medium bg-slate-800/80 px-2 py-0.5 rounded-full border border-slate-700/60">
+                        <i class="fa-solid fa-umbrella text-cyan-400 text-[10px]"></i>
                         <span id="f2-psr">--%</span>
                     </div>
                 </div>
 
                 <!-- Card 3: Tomorrow 08:00 (明日) -->
-                <div id="card-tmr" class="glass-panel rounded-2xl flex flex-col items-center justify-between text-center p-2.5 transition-opacity duration-300">
-                    <div id="f3-date" class="text-slate-200 font-semibold text-xs md:text-sm border-b border-slate-700/60 pb-1 w-full truncate">
-                        <span id="f3-ddmmm" class="text-emerald-400 font-bold mr-1">--</span>08:00 (明日)
+                <div id="card-tmr" class="glass-panel rounded-xl flex flex-col items-center justify-between text-center p-2 transition-opacity duration-300 min-h-0">
+                    <div id="f3-date" class="text-slate-200 font-semibold text-[11px] border-b border-slate-700/60 pb-0.5 w-full truncate">
+                        <span id="f3-ddmmm" class="text-emerald-400 font-bold mr-0.5">--</span>08:00
                     </div>
                     
-                    <div class="my-1 flex items-center justify-center">
-                        <i id="f3-icon" class="fa-solid fa-cloud-sun text-3xl md:text-4xl text-yellow-300 drop-shadow"></i>
+                    <div class="my-0.5 flex items-center justify-center">
+                        <i id="f3-icon" class="fa-solid fa-cloud-sun text-xl md:text-2xl text-yellow-300 drop-shadow"></i>
                     </div>
 
-                    <div id="f3-temp" class="text-xl md:text-2xl font-bold text-white tracking-wide">
+                    <div id="f3-temp" class="text-base md:text-lg font-bold text-white leading-tight">
                         --°C
                     </div>
 
-                    <div id="f3-rh" class="text-xs md:text-sm font-medium text-slate-300">
+                    <div id="f3-rh" class="text-[11px] font-medium text-slate-300 leading-tight">
                         --% RH
                     </div>
 
-                    <div class="flex items-center gap-1.5 text-xs md:text-sm text-cyan-300 font-medium bg-slate-800/80 px-2.5 py-0.5 rounded-full border border-slate-700/60">
-                        <i class="fa-solid fa-umbrella text-cyan-400 text-xs"></i>
+                    <div class="flex items-center gap-1 text-[11px] text-cyan-300 font-medium bg-slate-800/80 px-2 py-0.5 rounded-full border border-slate-700/60">
+                        <i class="fa-solid fa-umbrella text-cyan-400 text-[10px]"></i>
                         <span id="f3-psr">--%</span>
                     </div>
                 </div>
@@ -225,36 +225,37 @@
         </div>
     </div>
 
-    <!-- Right Column: Upcoming Events Schedule - Embed View Only (56% width) -->
-    <div class="glass-panel w-[56%] h-full rounded-3xl p-7 flex flex-col">
-        <div class="border-b-2 border-slate-600/50 pb-3 mb-4 shrink-0 flex items-end justify-between">
-            <div>
-                <h2 class="text-3xl font-bold text-white tracking-wide uppercase">Upcoming Events</h2>
-                <h3 class="text-lg text-slate-400 font-medium mt-0.5">Calendar Schedule 行程表</h3>
+    <!-- Right Column: Upcoming Events Schedule - Maximized Area (62% width) -->
+    <div class="glass-panel w-[62%] h-full rounded-2xl p-3.5 flex flex-col">
+        <!-- Compact Single-Row Header for Upcoming Events -->
+        <div class="border-b border-slate-600/50 pb-2 mb-2.5 shrink-0 flex items-center justify-between gap-2">
+            <div class="flex items-baseline gap-2.5 truncate">
+                <h2 class="text-lg md:text-xl font-bold text-white tracking-wide uppercase whitespace-nowrap">Upcoming Events</h2>
+                <h3 class="text-xs md:text-sm text-slate-400 font-medium truncate">Calendar Schedule 行程表</h3>
             </div>
             
             <!-- Controls: Dynamic Font Size Adjustment (100% - 250%) + Embed Refresh -->
-            <div class="flex items-center gap-2.5">
-                <!-- Text Size Adjustment Buttons (Dynamically scales Embed Content from 100% to 250%) -->
-                <div class="flex items-center bg-slate-800/90 rounded-xl border border-slate-600 overflow-hidden shadow-sm">
-                    <button onclick="adjustEventTextSize(-1)" title="Decrease Calendar Font Size" class="px-3 py-1.5 text-sm text-slate-200 hover:text-white hover:bg-slate-700 active:bg-slate-600 font-bold transition border-r border-slate-700">
+            <div class="flex items-center gap-1.5 shrink-0">
+                <!-- Text Size Adjustment Buttons -->
+                <div class="flex items-center bg-slate-800/90 rounded-lg border border-slate-600 overflow-hidden shadow-sm">
+                    <button onclick="adjustEventTextSize(-1)" title="Decrease Calendar Font Size" class="px-2.5 py-1 text-xs text-slate-200 hover:text-white hover:bg-slate-700 active:bg-slate-600 font-bold transition border-r border-slate-700">
                         A-
                     </button>
-                    <span id="font-size-indicator" class="px-2.5 text-xs text-cyan-300 font-mono font-semibold select-none min-w-[52px] text-center">125%</span>
-                    <button onclick="adjustEventTextSize(1)" title="Increase Calendar Font Size" class="px-3 py-1.5 text-sm text-slate-200 hover:text-white hover:bg-slate-700 active:bg-slate-600 font-bold transition border-l border-slate-700">
+                    <span id="font-size-indicator" class="px-2 text-xs text-cyan-300 font-mono font-semibold select-none min-w-[44px] text-center">100%</span>
+                    <button onclick="adjustEventTextSize(1)" title="Increase Calendar Font Size" class="px-2.5 py-1 text-xs text-slate-200 hover:text-white hover:bg-slate-700 active:bg-slate-600 font-bold transition border-l border-slate-700">
                         A+
                     </button>
                 </div>
 
-                <button onclick="refreshEmbedCalendar()" id="calendar-sync-status" class="text-xs text-slate-300 hover:text-white font-mono bg-slate-800/80 hover:bg-slate-700 px-3 py-2 rounded-xl border border-slate-600 transition flex items-center gap-1.5">
+                <button onclick="refreshEmbedCalendar()" id="calendar-sync-status" class="text-xs text-slate-300 hover:text-white font-mono bg-slate-800/80 hover:bg-slate-700 px-2.5 py-1 rounded-lg border border-slate-600 transition flex items-center gap-1.5">
                     <i id="cal-refresh-icon" class="fa-solid fa-rotate"></i>
-                    <span id="cal-status-text">Live Embed</span>
+                    <span id="cal-status-text">Live</span>
                 </button>
             </div>
         </div>
 
         <!-- Direct Google Calendar Agenda Embed View (Exclusively Shown) -->
-        <div id="embed-schedule-container" class="flex-1 rounded-2xl overflow-hidden border border-slate-700/60 bg-slate-900 relative">
+        <div id="embed-schedule-container" class="flex-1 rounded-xl overflow-hidden border border-slate-700/60 bg-slate-900 relative">
             <iframe 
                 id="gcal-embed-iframe"
                 src="https://calendar.google.com/calendar/embed?src=s73ta3ckuda0ka3jkc4n7ujdtk%40group.calendar.google.com&ctz=Asia%2FHong_Kong&mode=AGENDA&showTitle=0&showNav=0&showDate=1&showPrint=0&showTabs=0&showCalendars=0&showTz=0"
@@ -278,6 +279,7 @@
         // --- Dynamic Font Size Adjustment for Embedded Calendar (100% to 250%) ---
         const scaleLevels = [
             { scale: 1.00, label: '100%' },
+            { scale: 1.15, label: '115%' },
             { scale: 1.25, label: '125%' },
             { scale: 1.50, label: '150%' },
             { scale: 1.75, label: '175%' },
@@ -285,7 +287,7 @@
             { scale: 2.25, label: '225%' },
             { scale: 2.50, label: '250%' }
         ];
-        let currentSizeIndex = parseInt(localStorage.getItem('family_dash_embed_scale_100_250') || '1', 10); // Default 125% (index 1)
+        let currentSizeIndex = parseInt(localStorage.getItem('family_dash_embed_scale_100_250') || '0', 10); // Default 100% (index 0)
 
         function applyEventTextSize() {
             if (isNaN(currentSizeIndex) || currentSizeIndex < 0) currentSizeIndex = 0;
@@ -314,12 +316,12 @@
             const statusText = document.getElementById('cal-status-text');
             if (iframe) {
                 icon.classList.add('fa-spin');
-                statusText.textContent = 'Refreshing...';
+                statusText.textContent = 'Sync...';
                 iframe.src = `${EMBED_BASE_URL}&_cb=${Date.now()}`;
                 setTimeout(() => {
                     icon.classList.remove('fa-spin');
                     const now = new Date();
-                    statusText.textContent = `Updated ${now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Hong_Kong' })}`;
+                    statusText.textContent = `${now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Hong_Kong' })}`;
                 }, 1200);
             }
         }
@@ -408,21 +410,21 @@
 
         function getFallbackBadge(code, name) {
             const codeUpper = (code || '').toUpperCase();
-            if (codeUpper.includes('FIREY')) return `<div class="bg-yellow-500/20 text-yellow-300 font-bold px-3 py-1.5 rounded-xl border-2 border-yellow-400 flex items-center gap-2 shadow-md"><i class="fa-solid fa-fire text-yellow-400 text-xl"></i><span>Yellow Fire</span></div>`;
-            if (codeUpper.includes('FIRER')) return `<div class="bg-red-500/20 text-red-300 font-bold px-3 py-1.5 rounded-xl border-2 border-red-500 flex items-center gap-2 shadow-md"><i class="fa-solid fa-fire-flame-curved text-red-400 text-xl"></i><span>Red Fire</span></div>`;
-            if (codeUpper.includes('RAINA')) return `<div class="bg-amber-500/20 text-amber-300 font-bold px-3 py-1.5 rounded-xl border-2 border-amber-400 flex items-center gap-2 shadow-md"><i class="fa-solid fa-cloud-showers-heavy text-amber-400 text-xl"></i><span>Amber Rain</span></div>`;
-            if (codeUpper.includes('RAINR')) return `<div class="bg-red-600/30 text-red-200 font-bold px-3 py-1.5 rounded-xl border-2 border-red-500 flex items-center gap-2 shadow-md"><i class="fa-solid fa-cloud-showers-water text-red-400 text-xl"></i><span>Red Rain</span></div>`;
-            if (codeUpper.includes('RAINB')) return `<div class="bg-slate-900 text-slate-100 font-bold px-3 py-1.5 rounded-xl border-2 border-slate-500 flex items-center gap-2 shadow-md"><i class="fa-solid fa-cloud-showers-heavy text-white text-xl"></i><span>Black Rain</span></div>`;
-            if (codeUpper.includes('TS')) return `<div class="bg-amber-500/20 text-amber-300 font-bold px-3 py-1.5 rounded-xl border-2 border-amber-400 flex items-center gap-2 shadow-md"><i class="fa-solid fa-bolt text-yellow-300 text-xl"></i><span>Thunderstorm</span></div>`;
-            if (codeUpper.includes('TC')) return `<div class="bg-red-500/20 text-red-300 font-bold px-3 py-1.5 rounded-xl border-2 border-red-400 flex items-center gap-2 shadow-md"><i class="fa-solid fa-hurricane text-red-400 text-xl"></i><span>${name || 'Typhoon'}</span></div>`;
-            return `<div class="bg-amber-500/20 text-amber-300 font-bold px-3 py-1.5 rounded-xl border-2 border-amber-500/50 flex items-center gap-2 shadow-md"><i class="fa-solid fa-triangle-exclamation text-amber-400 text-xl"></i><span>${name || code}</span></div>`;
+            if (codeUpper.includes('FIREY')) return `<div class="bg-yellow-500/20 text-yellow-300 text-xs font-bold px-2 py-0.5 rounded-lg border border-yellow-400 flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-fire text-yellow-400"></i><span>Yellow Fire</span></div>`;
+            if (codeUpper.includes('FIRER')) return `<div class="bg-red-500/20 text-red-300 text-xs font-bold px-2 py-0.5 rounded-lg border border-red-500 flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-fire-flame-curved text-red-400"></i><span>Red Fire</span></div>`;
+            if (codeUpper.includes('RAINA')) return `<div class="bg-amber-500/20 text-amber-300 text-xs font-bold px-2 py-0.5 rounded-lg border border-amber-400 flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-cloud-showers-heavy text-amber-400"></i><span>Amber Rain</span></div>`;
+            if (codeUpper.includes('RAINR')) return `<div class="bg-red-600/30 text-red-200 text-xs font-bold px-2 py-0.5 rounded-lg border border-red-500 flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-cloud-showers-water text-red-400"></i><span>Red Rain</span></div>`;
+            if (codeUpper.includes('RAINB')) return `<div class="bg-slate-900 text-slate-100 text-xs font-bold px-2 py-0.5 rounded-lg border border-slate-500 flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-cloud-showers-heavy text-white"></i><span>Black Rain</span></div>`;
+            if (codeUpper.includes('TS')) return `<div class="bg-amber-500/20 text-amber-300 text-xs font-bold px-2 py-0.5 rounded-lg border border-amber-400 flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-bolt text-yellow-300"></i><span>Thunderstorm</span></div>`;
+            if (codeUpper.includes('TC')) return `<div class="bg-red-500/20 text-red-300 text-xs font-bold px-2 py-0.5 rounded-lg border border-red-400 flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-hurricane text-red-400"></i><span>${name || 'Typhoon'}</span></div>`;
+            return `<div class="bg-amber-500/20 text-amber-300 text-xs font-bold px-2 py-0.5 rounded-lg border border-amber-500/50 flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-triangle-exclamation text-amber-400"></i><span>${name || code}</span></div>`;
         }
 
         function renderWarningBadge(code, name) {
             let imgUrl = hkoWarningIconMap[code];
             const safeName = (name || '').replace(/'/g, "\\'");
             if (imgUrl) {
-                return `<img src="${imgUrl}" alt="${name}" title="${name}" referrerpolicy="no-referrer" onerror="this.outerHTML=getFallbackBadge('${code}', '${safeName}')" class="h-12 md:h-14 object-contain rounded-lg border border-amber-400/40 bg-slate-900/60 p-1 shadow-md">`;
+                return `<img src="${imgUrl}" alt="${name}" title="${name}" referrerpolicy="no-referrer" onerror="this.outerHTML=getFallbackBadge('${code}', '${safeName}')" class="h-7 md:h-8 object-contain rounded border border-amber-400/40 bg-slate-900/60 p-0.5 shadow-sm">`;
             }
             return getFallbackBadge(code, name);
         }
@@ -511,7 +513,7 @@
             const syncStatusEl = document.getElementById('weather-sync-status');
             const badgeEl = document.getElementById('precip-source-badge');
             try {
-                syncStatusEl.textContent = 'Updating weather...';
+                syncStatusEl.textContent = 'Syncing...';
 
                 // Fetch HKO Warnings/Temp + High-Res 15-Minute & Hourly Forecast + Weather.com Direct Feed
                 const openMeteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code,is_day&minutely_15=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code&timezone=Asia%2FHong_Kong&forecast_days=3`;
@@ -530,7 +532,7 @@
                 const omData = await openMeteoRes.json();
 
                 if (badgeEl) {
-                    badgeEl.textContent = weatherComMap ? 'Weather.com Live' : '15-Min High-Res Sync';
+                    badgeEl.textContent = weatherComMap ? 'Weather.com Live' : '15-Min High-Res';
                 }
 
                 const now = new Date();
@@ -600,10 +602,10 @@
                 document.getElementById('curr-pop-badge').textContent = `${currMetrics.pop}%`;
 
                 if (rhrEn.icon && rhrEn.icon.length > 0) {
-                    document.getElementById('weather-icon').className = `fa-solid ${getFontAwesomeIcon(rhrEn.icon[0])} text-5xl md:text-6xl drop-shadow-lg`;
+                    document.getElementById('weather-icon').className = `fa-solid ${getFontAwesomeIcon(rhrEn.icon[0])} text-3xl md:text-4xl drop-shadow-lg shrink-0`;
                 } else {
                     const isNightNow = currentHour < 6 || currentHour >= 18;
-                    document.getElementById('weather-icon').className = `fa-solid ${getWmoIcon(currMetrics.wmoCode, isNightNow)} text-5xl md:text-6xl drop-shadow-lg`;
+                    document.getElementById('weather-icon').className = `fa-solid ${getWmoIcon(currMetrics.wmoCode, isNightNow)} text-3xl md:text-4xl drop-shadow-lg shrink-0`;
                 }
 
                 // --- 2. Weather Warnings Banner ---
@@ -638,7 +640,7 @@
                     alertIconsList.innerHTML = activeBadges.join('');
                 } else {
                     alertContainer.classList.remove('has-warning');
-                    alertIconsList.innerHTML = `<div class="flex items-center gap-2 text-slate-400 text-sm md:text-base font-normal bg-slate-800/60 px-3.5 py-2 rounded-xl border border-slate-700/50"><i class="fa-solid fa-shield-halved text-emerald-400 text-lg"></i><span>No active warning signals</span></div>`;
+                    alertIconsList.innerHTML = `<div class="flex items-center gap-1.5 text-slate-400 text-xs font-normal bg-slate-800/60 px-2.5 py-1 rounded-lg border border-slate-700/50 whitespace-nowrap"><i class="fa-solid fa-shield-halved text-emerald-400 text-xs"></i><span>No active warnings</span></div>`;
                 }
 
                 // --- 3. Forecast Cards (12:00 Today, 18:00 Tonight, 08:00 Tomorrow) ---
@@ -651,7 +653,7 @@
                     document.getElementById('f1-temp').textContent = `${m12.temp}°C`;
                     document.getElementById('f1-rh').textContent = `${m12.rh}% RH`;
                     document.getElementById('f1-psr').textContent = `${m12.pop}%`;
-                    document.getElementById('f1-icon').className = `fa-solid ${getWmoIcon(m12.wmoCode, false)} text-3xl md:text-4xl drop-shadow`;
+                    document.getElementById('f1-icon').className = `fa-solid ${getWmoIcon(m12.wmoCode, false)} text-xl md:text-2xl drop-shadow`;
                 }
 
                 const cardNight = document.getElementById('card-night');
@@ -663,19 +665,19 @@
                     document.getElementById('f2-temp').textContent = `${m18.temp}°C`;
                     document.getElementById('f2-rh').textContent = `${m18.rh}% RH`;
                     document.getElementById('f2-psr').textContent = `${m18.pop}%`;
-                    document.getElementById('f2-icon').className = `fa-solid ${getWmoIcon(m18.wmoCode, true)} text-3xl md:text-4xl drop-shadow`;
+                    document.getElementById('f2-icon').className = `fa-solid ${getWmoIcon(m18.wmoCode, true)} text-xl md:text-2xl drop-shadow`;
                 }
 
                 const mTmr8 = getSlotData(8, '00', 1);
                 document.getElementById('f3-temp').textContent = `${mTmr8.temp}°C`;
                 document.getElementById('f3-rh').textContent = `${mTmr8.rh}% RH`;
                 document.getElementById('f3-psr').textContent = `${mTmr8.pop}%`;
-                document.getElementById('f3-icon').className = `fa-solid ${getWmoIcon(mTmr8.wmoCode, false)} text-3xl md:text-4xl drop-shadow`;
+                document.getElementById('f3-icon').className = `fa-solid ${getWmoIcon(mTmr8.wmoCode, false)} text-xl md:text-2xl drop-shadow`;
 
-                syncStatusEl.textContent = `Updated ${now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Hong_Kong' })}`;
+                syncStatusEl.textContent = `Upd ${now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Hong_Kong' })}`;
             } catch (error) {
                 console.error("Failed to fetch weather data:", error);
-                syncStatusEl.textContent = 'Weather error';
+                syncStatusEl.textContent = 'Weather err';
             }
         }
 
