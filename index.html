@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+HK:wght@300;400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Sans+HK:wght@300;400;500;700&display=swap');
         
         body {
             font-family: 'Inter', 'Noto Sans HK', sans-serif;
@@ -79,13 +79,13 @@
         }
     </style>
 </head>
-<body class="h-[100dvh] w-screen p-2.5 flex gap-2.5 bg-gradient-to-br from-slate-900 via-gray-900 to-black text-slate-100">
+<body class="h-[100dvh] w-screen p-2 flex gap-2 bg-gradient-to-br from-slate-900 via-gray-900 to-black text-slate-100">
 
-    <!-- Left Column: Clock, Weather, Alerts & Forecast (38% width to maximize right pane) -->
-    <div class="flex flex-col w-[38%] h-full gap-2.5">
+    <!-- Left Column: Reduced to 34% width to maximize Calendar Events area -->
+    <div class="flex flex-col w-[34%] h-full gap-2">
         
-        <!-- Top Section: Location, 24hr Time with Seconds, English Date Only -->
-        <div class="glass-panel rounded-2xl px-4 py-3 flex flex-col justify-between h-[28%]">
+        <!-- Top Section: Location, Maximized 24hr Time with Seconds, English Date -->
+        <div class="glass-panel rounded-2xl px-3 py-2.5 flex flex-col justify-between h-[28%]">
             <div class="flex items-center justify-between gap-1">
                 <div class="flex items-center gap-1.5 text-slate-300 text-xs md:text-sm font-medium truncate">
                     <i class="fa-solid fa-location-dot text-blue-400 shrink-0"></i>
@@ -94,28 +94,28 @@
                 <span id="weather-sync-status" class="text-[10px] text-slate-500 font-mono shrink-0">Syncing...</span>
             </div>
             
-            <!-- Live Clock in 24hr Format with Seconds (Scaled to fit narrower pane) -->
-            <div id="clock-time" class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-none my-0.5 font-mono">
+            <!-- Live Clock: Fluidly maximized for 34% column width without overflowing -->
+            <div id="clock-time" class="text-[5.3vw] font-extrabold tracking-tighter text-white leading-none my-0.5 font-mono text-center w-full">
                 --:--:--
             </div>
             
             <!-- English Date Only -->
-            <div class="text-base md:text-lg text-slate-300 font-medium flex items-center truncate">
+            <div class="text-base md:text-lg text-slate-300 font-semibold flex items-center truncate">
                 <span id="clock-date-en">Loading date...</span>
             </div>
         </div>
 
         <!-- Current Weather Section -->
-        <div class="glass-panel rounded-2xl px-4 py-2.5 flex items-center justify-between h-[21%]">
-            <div class="flex items-center gap-2">
-                <span id="weather-temp" class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tighter drop-shadow-md">--°C</span>
+        <div class="glass-panel rounded-2xl px-3 py-2 flex items-center justify-between h-[20%]">
+            <div class="flex items-center">
+                <span id="weather-temp" class="text-[4.2vw] font-extrabold text-white tracking-tighter leading-none drop-shadow-md">--°C</span>
             </div>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2.5">
                 <i id="weather-icon" class="fa-solid fa-spinner fa-spin text-3xl md:text-4xl text-blue-400 drop-shadow-lg shrink-0"></i>
-                <div class="text-slate-300 font-medium leading-tight border-l border-slate-600 pl-3 flex flex-col items-start gap-1.5">
-                    <div id="weather-details-en" class="text-sm md:text-base font-semibold text-slate-200 whitespace-nowrap">Humidity: --%</div>
+                <div class="text-slate-300 font-medium leading-tight border-l border-slate-600 pl-2.5 flex flex-col items-start gap-1">
+                    <div id="weather-details-en" class="text-sm md:text-base font-bold text-slate-200 whitespace-nowrap">Humidity: --%</div>
                     <!-- Live Rain Probability Pill Badge -->
-                    <div class="flex items-center gap-1.5 text-xs md:text-sm text-cyan-300 font-semibold bg-slate-800/90 px-2.5 py-0.5 rounded-full border border-cyan-500/40 shadow-sm" title="Current Precipitation Probability">
+                    <div class="flex items-center gap-1.5 text-xs md:text-sm text-cyan-300 font-bold bg-slate-800/90 px-2.5 py-0.5 rounded-full border border-cyan-500/40 shadow-sm" title="Current Precipitation Probability">
                         <i class="fa-solid fa-umbrella text-cyan-400 text-xs"></i>
                         <span id="curr-pop-badge">--%</span>
                     </div>
@@ -124,99 +124,99 @@
         </div>
 
         <!-- Compact Weather Alert Banner -->
-        <div id="alert-container" class="alert-panel rounded-xl px-3.5 py-1.5 flex items-center justify-between gap-2 h-[11%]">
-            <div class="flex items-center gap-1.5 text-slate-300 font-semibold text-xs md:text-sm uppercase tracking-wider shrink-0">
-                <i class="fa-solid fa-triangle-exclamation text-amber-400 text-sm"></i>
-                <span>Weather Warnings</span>
+        <div id="alert-container" class="alert-panel rounded-xl px-3 py-1 flex items-center justify-between gap-1.5 h-[10%]">
+            <div class="flex items-center gap-1.5 text-slate-300 font-bold text-[11px] md:text-xs uppercase tracking-wider shrink-0">
+                <i class="fa-solid fa-triangle-exclamation text-amber-400 text-xs"></i>
+                <span>Warnings</span>
             </div>
             
             <!-- Dynamic Alert Icons List -->
             <div id="alert-icons-list" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-                <div class="flex items-center gap-1.5 text-slate-400 text-xs font-normal bg-slate-800/60 px-2.5 py-1 rounded-lg border border-slate-700/50 whitespace-nowrap">
+                <div class="flex items-center gap-1.5 text-slate-300 text-xs font-medium bg-slate-800/60 px-2.5 py-1 rounded-lg border border-slate-700/50 whitespace-nowrap">
                     <i class="fa-solid fa-shield-halved text-emerald-400 text-xs"></i>
-                    <span>No active warnings</span>
+                    <span>No active signals</span>
                 </div>
             </div>
         </div>
 
-        <!-- Forecast Section (3 Cards Grid: Afternoon 12:00, Night 18:00, Tomorrow 08:00) -->
-        <div class="h-[40%] flex flex-col justify-end min-h-0">
+        <!-- Forecast Section: Enlarged Font Sizes inside 3 Cards (42% height) -->
+        <div class="h-[42%] flex flex-col justify-end min-h-0">
             <div class="flex items-center justify-between mb-1 px-1 shrink-0">
-                <div class="text-slate-400 font-bold uppercase tracking-wider text-xs md:text-sm flex items-center gap-2">
+                <div class="text-slate-300 font-bold uppercase tracking-wider text-xs md:text-sm flex items-center gap-2">
                     <span>Forecast 天氣預報</span>
                     <span id="precip-source-badge" class="text-[10px] font-normal text-cyan-400/90 bg-slate-800/80 px-1.5 py-0.5 rounded border border-slate-700">15m Sync</span>
                 </div>
             </div>
-            <div id="forecast-grid" class="flex-1 grid grid-cols-3 gap-2 min-h-0">
+            <div id="forecast-grid" class="flex-1 grid grid-cols-3 gap-1.5 min-h-0">
                 
                 <!-- Card 1: Afternoon 12:00 (今午) - Hides when time >= 12:00 -->
-                <div id="card-aft" class="glass-panel rounded-xl flex flex-col items-center justify-between text-center p-2 transition-opacity duration-300 min-h-0">
-                    <div id="f1-date" class="text-slate-200 font-semibold text-[11px] border-b border-slate-700/60 pb-0.5 w-full truncate">
-                        <span id="f1-ddmmm" class="text-blue-400 font-bold mr-0.5">--</span>12:00
+                <div id="card-aft" class="glass-panel rounded-xl flex flex-col items-center justify-between text-center p-1.5 transition-opacity duration-300 min-h-0">
+                    <div id="f1-date" class="text-slate-100 font-bold text-xs md:text-sm border-b border-slate-700/60 pb-0.5 w-full truncate">
+                        <span id="f1-ddmmm" class="text-blue-400 font-extrabold mr-0.5">--</span>12:00
                     </div>
                     
                     <div class="my-0.5 flex items-center justify-center">
-                        <i id="f1-icon" class="fa-solid fa-sun text-xl md:text-2xl text-yellow-400 drop-shadow"></i>
+                        <i id="f1-icon" class="fa-solid fa-sun text-2xl md:text-3xl text-yellow-400 drop-shadow"></i>
                     </div>
 
-                    <div id="f1-temp" class="text-base md:text-lg font-bold text-white leading-tight">
+                    <div id="f1-temp" class="text-xl md:text-2xl font-extrabold text-white leading-none">
                         --°C
                     </div>
 
-                    <div id="f1-rh" class="text-[11px] font-medium text-slate-300 leading-tight">
+                    <div id="f1-rh" class="text-xs md:text-sm font-semibold text-slate-200 leading-tight">
                         --% RH
                     </div>
 
-                    <div class="flex items-center gap-1 text-[11px] text-cyan-300 font-medium bg-slate-800/80 px-2 py-0.5 rounded-full border border-slate-700/60">
-                        <i class="fa-solid fa-umbrella text-cyan-400 text-[10px]"></i>
+                    <div class="flex items-center justify-center gap-1 text-xs md:text-sm text-cyan-300 font-bold bg-slate-800/90 px-2.5 py-0.5 rounded-full border border-slate-700/60 w-full">
+                        <i class="fa-solid fa-umbrella text-cyan-400 text-xs"></i>
                         <span id="f1-psr">--%</span>
                     </div>
                 </div>
 
                 <!-- Card 2: Night 18:00 (今晚) - Hides when time >= 18:00 -->
-                <div id="card-night" class="glass-panel rounded-xl flex flex-col items-center justify-between text-center p-2 transition-opacity duration-300 min-h-0">
-                    <div id="f2-date" class="text-slate-200 font-semibold text-[11px] border-b border-slate-700/60 pb-0.5 w-full truncate">
-                        <span id="f2-ddmmm" class="text-indigo-400 font-bold mr-0.5">--</span>18:00
+                <div id="card-night" class="glass-panel rounded-xl flex flex-col items-center justify-between text-center p-1.5 transition-opacity duration-300 min-h-0">
+                    <div id="f2-date" class="text-slate-100 font-bold text-xs md:text-sm border-b border-slate-700/60 pb-0.5 w-full truncate">
+                        <span id="f2-ddmmm" class="text-indigo-400 font-extrabold mr-0.5">--</span>18:00
                     </div>
                     
                     <div class="my-0.5 flex items-center justify-center">
-                        <i id="f2-icon" class="fa-solid fa-cloud-moon text-xl md:text-2xl text-indigo-300 drop-shadow"></i>
+                        <i id="f2-icon" class="fa-solid fa-cloud-moon text-2xl md:text-3xl text-indigo-300 drop-shadow"></i>
                     </div>
 
-                    <div id="f2-temp" class="text-base md:text-lg font-bold text-white leading-tight">
+                    <div id="f2-temp" class="text-xl md:text-2xl font-extrabold text-white leading-none">
                         --°C
                     </div>
 
-                    <div id="f2-rh" class="text-[11px] font-medium text-slate-300 leading-tight">
+                    <div id="f2-rh" class="text-xs md:text-sm font-semibold text-slate-200 leading-tight">
                         --% RH
                     </div>
 
-                    <div class="flex items-center gap-1 text-[11px] text-cyan-300 font-medium bg-slate-800/80 px-2 py-0.5 rounded-full border border-slate-700/60">
-                        <i class="fa-solid fa-umbrella text-cyan-400 text-[10px]"></i>
+                    <div class="flex items-center justify-center gap-1 text-xs md:text-sm text-cyan-300 font-bold bg-slate-800/90 px-2.5 py-0.5 rounded-full border border-slate-700/60 w-full">
+                        <i class="fa-solid fa-umbrella text-cyan-400 text-xs"></i>
                         <span id="f2-psr">--%</span>
                     </div>
                 </div>
 
                 <!-- Card 3: Tomorrow 08:00 (明日) -->
-                <div id="card-tmr" class="glass-panel rounded-xl flex flex-col items-center justify-between text-center p-2 transition-opacity duration-300 min-h-0">
-                    <div id="f3-date" class="text-slate-200 font-semibold text-[11px] border-b border-slate-700/60 pb-0.5 w-full truncate">
-                        <span id="f3-ddmmm" class="text-emerald-400 font-bold mr-0.5">--</span>08:00
+                <div id="card-tmr" class="glass-panel rounded-xl flex flex-col items-center justify-between text-center p-1.5 transition-opacity duration-300 min-h-0">
+                    <div id="f3-date" class="text-slate-100 font-bold text-xs md:text-sm border-b border-slate-700/60 pb-0.5 w-full truncate">
+                        <span id="f3-ddmmm" class="text-emerald-400 font-extrabold mr-0.5">--</span>08:00
                     </div>
                     
                     <div class="my-0.5 flex items-center justify-center">
-                        <i id="f3-icon" class="fa-solid fa-cloud-sun text-xl md:text-2xl text-yellow-300 drop-shadow"></i>
+                        <i id="f3-icon" class="fa-solid fa-cloud-sun text-2xl md:text-3xl text-yellow-300 drop-shadow"></i>
                     </div>
 
-                    <div id="f3-temp" class="text-base md:text-lg font-bold text-white leading-tight">
+                    <div id="f3-temp" class="text-xl md:text-2xl font-extrabold text-white leading-none">
                         --°C
                     </div>
 
-                    <div id="f3-rh" class="text-[11px] font-medium text-slate-300 leading-tight">
+                    <div id="f3-rh" class="text-xs md:text-sm font-semibold text-slate-200 leading-tight">
                         --% RH
                     </div>
 
-                    <div class="flex items-center gap-1 text-[11px] text-cyan-300 font-medium bg-slate-800/80 px-2 py-0.5 rounded-full border border-slate-700/60">
-                        <i class="fa-solid fa-umbrella text-cyan-400 text-[10px]"></i>
+                    <div class="flex items-center justify-center gap-1 text-xs md:text-sm text-cyan-300 font-bold bg-slate-800/90 px-2.5 py-0.5 rounded-full border border-slate-700/60 w-full">
+                        <i class="fa-solid fa-umbrella text-cyan-400 text-xs"></i>
                         <span id="f3-psr">--%</span>
                     </div>
                 </div>
@@ -225,10 +225,10 @@
         </div>
     </div>
 
-    <!-- Right Column: Upcoming Events Schedule - Maximized Area (62% width) -->
-    <div class="glass-panel w-[62%] h-full rounded-2xl p-3.5 flex flex-col">
+    <!-- Right Column: Upcoming Events Schedule - Expanded to 66% width -->
+    <div class="glass-panel w-[66%] h-full rounded-2xl p-3 flex flex-col">
         <!-- Compact Single-Row Header for Upcoming Events -->
-        <div class="border-b border-slate-600/50 pb-2 mb-2.5 shrink-0 flex items-center justify-between gap-2">
+        <div class="border-b border-slate-600/50 pb-2 mb-2 shrink-0 flex items-center justify-between gap-2">
             <div class="flex items-baseline gap-2.5 truncate">
                 <h2 class="text-lg md:text-xl font-bold text-white tracking-wide uppercase whitespace-nowrap">Upcoming Events</h2>
                 <h3 class="text-xs md:text-sm text-slate-400 font-medium truncate">Calendar Schedule 行程表</h3>
@@ -236,7 +236,6 @@
             
             <!-- Controls: Dynamic Font Size Adjustment (100% - 250%) + Embed Refresh -->
             <div class="flex items-center gap-1.5 shrink-0">
-                <!-- Text Size Adjustment Buttons -->
                 <div class="flex items-center bg-slate-800/90 rounded-lg border border-slate-600 overflow-hidden shadow-sm">
                     <button onclick="adjustEventTextSize(-1)" title="Decrease Calendar Font Size" class="px-2.5 py-1 text-xs text-slate-200 hover:text-white hover:bg-slate-700 active:bg-slate-600 font-bold transition border-r border-slate-700">
                         A-
@@ -254,7 +253,7 @@
             </div>
         </div>
 
-        <!-- Direct Google Calendar Agenda Embed View (Exclusively Shown) -->
+        <!-- Direct Google Calendar Agenda Embed View -->
         <div id="embed-schedule-container" class="flex-1 rounded-xl overflow-hidden border border-slate-700/60 bg-slate-900 relative">
             <iframe 
                 id="gcal-embed-iframe"
@@ -424,7 +423,7 @@
             let imgUrl = hkoWarningIconMap[code];
             const safeName = (name || '').replace(/'/g, "\\'");
             if (imgUrl) {
-                return `<img src="${imgUrl}" alt="${name}" title="${name}" referrerpolicy="no-referrer" onerror="this.outerHTML=getFallbackBadge('${code}', '${safeName}')" class="h-7 md:h-8 object-contain rounded border border-amber-400/40 bg-slate-900/60 p-0.5 shadow-sm">`;
+                return `<img src="${imgUrl}" alt="${name}" title="${name}" referrerpolicy="no-referrer" onerror="this.outerHTML=getFallbackBadge('${code}', '${safeName}')" class="h-6 md:h-7 object-contain rounded border border-amber-400/40 bg-slate-900/60 p-0.5 shadow-sm">`;
             }
             return getFallbackBadge(code, name);
         }
@@ -640,7 +639,7 @@
                     alertIconsList.innerHTML = activeBadges.join('');
                 } else {
                     alertContainer.classList.remove('has-warning');
-                    alertIconsList.innerHTML = `<div class="flex items-center gap-1.5 text-slate-400 text-xs font-normal bg-slate-800/60 px-2.5 py-1 rounded-lg border border-slate-700/50 whitespace-nowrap"><i class="fa-solid fa-shield-halved text-emerald-400 text-xs"></i><span>No active warnings</span></div>`;
+                    alertIconsList.innerHTML = `<div class="flex items-center gap-1.5 text-slate-300 text-xs font-medium bg-slate-800/60 px-2.5 py-1 rounded-lg border border-slate-700/50 whitespace-nowrap"><i class="fa-solid fa-shield-halved text-emerald-400 text-xs"></i><span>No active signals</span></div>`;
                 }
 
                 // --- 3. Forecast Cards (12:00 Today, 18:00 Tonight, 08:00 Tomorrow) ---
@@ -653,7 +652,7 @@
                     document.getElementById('f1-temp').textContent = `${m12.temp}°C`;
                     document.getElementById('f1-rh').textContent = `${m12.rh}% RH`;
                     document.getElementById('f1-psr').textContent = `${m12.pop}%`;
-                    document.getElementById('f1-icon').className = `fa-solid ${getWmoIcon(m12.wmoCode, false)} text-xl md:text-2xl drop-shadow`;
+                    document.getElementById('f1-icon').className = `fa-solid ${getWmoIcon(m12.wmoCode, false)} text-2xl md:text-3xl drop-shadow`;
                 }
 
                 const cardNight = document.getElementById('card-night');
@@ -665,14 +664,14 @@
                     document.getElementById('f2-temp').textContent = `${m18.temp}°C`;
                     document.getElementById('f2-rh').textContent = `${m18.rh}% RH`;
                     document.getElementById('f2-psr').textContent = `${m18.pop}%`;
-                    document.getElementById('f2-icon').className = `fa-solid ${getWmoIcon(m18.wmoCode, true)} text-xl md:text-2xl drop-shadow`;
+                    document.getElementById('f2-icon').className = `fa-solid ${getWmoIcon(m18.wmoCode, true)} text-2xl md:text-3xl drop-shadow`;
                 }
 
                 const mTmr8 = getSlotData(8, '00', 1);
                 document.getElementById('f3-temp').textContent = `${mTmr8.temp}°C`;
                 document.getElementById('f3-rh').textContent = `${mTmr8.rh}% RH`;
                 document.getElementById('f3-psr').textContent = `${mTmr8.pop}%`;
-                document.getElementById('f3-icon').className = `fa-solid ${getWmoIcon(mTmr8.wmoCode, false)} text-xl md:text-2xl drop-shadow`;
+                document.getElementById('f3-icon').className = `fa-solid ${getWmoIcon(mTmr8.wmoCode, false)} text-2xl md:text-3xl drop-shadow`;
 
                 syncStatusEl.textContent = `Upd ${now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Hong_Kong' })}`;
             } catch (error) {
