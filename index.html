@@ -144,7 +144,7 @@
             <div class="flex items-center justify-between mb-1 px-1 shrink-0">
                 <div class="text-slate-300 font-bold uppercase tracking-wider text-xs md:text-sm flex items-center gap-2">
                     <span>Forecast 天氣預報</span>
-                    <span id="precip-source-badge" class="text-[10px] font-normal text-cyan-400/90 bg-slate-800/80 px-1.5 py-0.5 rounded border border-slate-700">15m Sync</span>
+                    <span id="precip-source-badge" class="text-[10px] font-normal text-cyan-400/90 bg-slate-800/80 px-1.5 py-0.5 rounded border border-slate-700">Syncing</span>
                 </div>
             </div>
             <div id="forecast-grid" class="flex-1 grid grid-cols-3 gap-1.5 min-h-0">
@@ -156,7 +156,7 @@
                     </div>
                     
                     <div class="my-0.5 flex items-center justify-center">
-                        <i id="f1-icon" class="fa-solid fa-sun text-2xl md:text-3xl text-yellow-400 drop-shadow"></i>
+                        <i id="f1-icon" class="fa-solid fa-cloud-sun text-2xl md:text-3xl text-yellow-300 drop-shadow"></i>
                     </div>
 
                     <div id="f1-temp" class="text-xl md:text-2xl font-extrabold text-white leading-none">
@@ -180,7 +180,7 @@
                     </div>
                     
                     <div class="my-0.5 flex items-center justify-center">
-                        <i id="f2-icon" class="fa-solid fa-cloud-moon text-2xl md:text-3xl text-indigo-300 drop-shadow"></i>
+                        <i id="f2-icon" class="fa-solid fa-moon text-2xl md:text-3xl text-indigo-200 drop-shadow"></i>
                     </div>
 
                     <div id="f2-temp" class="text-xl md:text-2xl font-extrabold text-white leading-none">
@@ -270,10 +270,12 @@
         const CALENDAR_ID = 's73ta3ckuda0ka3jkc4n7ujdtk@group.calendar.google.com';
         const EMBED_BASE_URL = `https://calendar.google.com/calendar/embed?src=${encodeURIComponent(CALENDAR_ID)}&ctz=Asia%2FHong_Kong&mode=AGENDA&showTitle=0&showNav=0&showDate=1&showPrint=0&showTabs=0&showCalendars=0&showTz=0`;
         
-        // Tiu Keng Leng / Tseung Kwan O Coordinates
-        const LAT = 22.3080;
-        const LON = 114.2600;
-        const WEATHER_COM_URL = `https://weather.com/en-HK/weather/hourbyhour/l/${LAT},${LON}`;
+        // Tiu Keng Leng (King Ling Road / 景嶺路) Coordinates & Exact Weather.com Location Hash
+        const LAT = 22.3050;
+        const LON = 114.2530;
+        const WEATHER_COM_HASH = '052baf173e1e04b9ca3cf346084fb7729ab0e6849baff065f5eecb2c241b09cc';
+        const WEATHER_COM_URL_EN = `https://weather.com/en-HK/weather/hourbyhour/l/${WEATHER_COM_HASH}`;
+        const WEATHER_COM_URL_ZH = `https://weather.com/zh-CN/weather/hourbyhour/l/${WEATHER_COM_HASH}`;
 
         // --- Dynamic Font Size Adjustment for Embedded Calendar (100% to 250%) ---
         const scaleLevels = [
@@ -286,7 +288,7 @@
             { scale: 2.25, label: '225%' },
             { scale: 2.50, label: '250%' }
         ];
-        let currentSizeIndex = parseInt(localStorage.getItem('family_dash_embed_scale_100_250') || '0', 10); // Default 100% (index 0)
+        let currentSizeIndex = parseInt(localStorage.getItem('family_dash_embed_scale_100_250') || '0', 10);
 
         function applyEventTextSize() {
             if (isNaN(currentSizeIndex) || currentSizeIndex < 0) currentSizeIndex = 0;
@@ -340,12 +342,42 @@
             return dateObj.toLocaleDateString('en-CA', { timeZone: 'Asia/Hong_Kong' });
         }
 
+        // Weather.com (TWC) Icon Code & Condition Text to FontAwesome Mapper
+        function getTwcIcon(iconCodeOrText, isNight = false) {
+            if (typeof iconCodeOrText === 'string' && isNaN(iconCodeOrText)) {
+                const txt = iconCodeOrText.toLowerCase();
+                if (txt.includes('thunder') || txt.includes('雷')) return 'fa-cloud-bolt text-amber-400';
+                if (txt.includes('rain') || txt.includes('shower') || txt.includes('雨')) return 'fa-cloud-showers-heavy text-blue-400';
+                if (txt.includes('partly') || txt.includes('局部') || txt.includes('少云') || txt.includes('少雲')) {
+                    return isNight ? 'fa-cloud-moon text-indigo-300' : 'fa-cloud-sun text-yellow-300';
+                }
+                if (txt.includes('cloud') || txt.includes('overcast') || txt.includes('多云') || txt.includes('多雲') || txt.includes('阴') || txt.includes('陰')) {
+                    return 'fa-cloud text-slate-300';
+                }
+                if (txt.includes('clear') || txt.includes('sunny') || txt.includes('晴')) {
+                    return isNight ? 'fa-moon text-indigo-200' : 'fa-sun text-yellow-400';
+                }
+            }
+            const code = Number(iconCodeOrText);
+            if (!isNaN(code)) {
+                if ([3, 4, 37, 38, 47].includes(code)) return 'fa-cloud-bolt text-amber-400';
+                if ([8, 9, 10, 11, 12, 39, 40, 45].includes(code)) return 'fa-cloud-showers-heavy text-blue-400';
+                if ([19, 20, 21, 22].includes(code)) return 'fa-smog text-slate-400';
+                if ([26, 27, 28].includes(code)) return 'fa-cloud text-slate-300';
+                if (code === 29 || (code === 30 && isNight)) return 'fa-cloud-moon text-indigo-300';
+                if (code === 30 || (code === 29 && !isNight)) return 'fa-cloud-sun text-yellow-300';
+                if (code === 31 || code === 33) return 'fa-moon text-indigo-200';
+                if (code === 32 || code === 34 || code === 36) return 'fa-sun text-yellow-400';
+            }
+            return isNight ? 'fa-cloud-moon text-indigo-300' : 'fa-cloud-sun text-yellow-300';
+        }
+
         function getWmoIcon(code, isNight = false) {
-            if (code === 0) return isNight ? 'fa-moon text-indigo-200' : 'fa-sun text-yellow-400';
-            if (code >= 1 && code <= 3) return isNight ? 'fa-cloud-moon text-indigo-300' : 'fa-cloud-sun text-yellow-300';
+            if (code === 0 || code === 1) return isNight ? 'fa-moon text-indigo-200' : 'fa-sun text-yellow-400';
+            if (code === 2) return isNight ? 'fa-cloud-moon text-indigo-300' : 'fa-cloud-sun text-yellow-300';
+            if (code === 3) return 'fa-cloud text-slate-300';
             if (code >= 45 && code <= 48) return 'fa-smog text-slate-400';
-            if (code >= 51 && code <= 57) return 'fa-cloud-rain text-blue-300';
-            if (code >= 61 && code <= 67) return 'fa-cloud-rain text-blue-400';
+            if (code >= 51 && code <= 67) return 'fa-cloud-rain text-blue-400';
             if (code >= 80 && code <= 82) return 'fa-cloud-showers-heavy text-blue-400';
             if (code >= 95) return 'fa-cloud-bolt text-amber-400';
             return isNight ? 'fa-cloud-moon text-indigo-300' : 'fa-cloud-sun text-yellow-400';
@@ -428,83 +460,242 @@
             return getFallbackBadge(code, name);
         }
 
-        // Helper to fetch raw HTML through resilient CORS proxies with timeout
-        async function fetchHtmlViaProxies(targetUrl) {
-            const fetchWithTimeout = (url, ms = 6000) => {
-                const ctrl = new AbortController();
-                const id = setTimeout(() => ctrl.abort(), ms);
-                return fetch(url, { signal: ctrl.signal, cache: 'no-store' }).finally(() => clearTimeout(id));
-            };
+        const fetchWithTimeout = (url, ms = 8000, headers = {}) => {
+            const ctrl = new AbortController();
+            const id = setTimeout(() => ctrl.abort(), ms);
+            return fetch(url, { signal: ctrl.signal, cache: 'no-store', headers }).finally(() => clearTimeout(id));
+        };
 
-            const proxies = [
-                async () => {
-                    const r = await fetchWithTimeout(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`);
-                    if (!r.ok) throw new Error('allorigins raw failed');
-                    return await r.text();
-                },
-                async () => {
-                    const r = await fetchWithTimeout(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`);
-                    if (!r.ok) throw new Error('codetabs failed');
-                    return await r.text();
-                },
-                async () => {
-                    const r = await fetchWithTimeout(`https://corsproxy.io/?url=${encodeURIComponent(targetUrl)}`);
-                    if (!r.ok) throw new Error('corsproxy failed');
-                    return await r.text();
+        // Helper: Convert a TWC v3 JSON object (with validTimeLocal, temperature, precipChance/precipPct, relativeHumidity, iconCode) into hourlyMap
+        function buildMapFromTwcJson(obj) {
+            if (!obj || !Array.isArray(obj.validTimeLocal)) return null;
+            const times = obj.validTimeLocal;
+            const temps = obj.temperature || [];
+            const pops  = obj.precipChance || obj.precipPct || [];
+            const rhs   = obj.relativeHumidity || [];
+            const icons = obj.iconCode || [];
+            const wxPhrases = obj.wxPhraseLong || obj.wxPhraseShort || [];
+
+            const map = {};
+            times.forEach((tStr, i) => {
+                if (typeof tStr === 'string' && tStr.length >= 16) {
+                    const hourKey = tStr.substring(0, 13); // YYYY-MM-DDTHH
+                    const minKey  = tStr.substring(0, 16); // YYYY-MM-DDTHH:mm
+                    const entry = {
+                        temp: temps[i] != null ? Number(temps[i]) : null,
+                        pop:  pops[i] != null ? Number(pops[i]) : 0,
+                        rh:   rhs[i] != null ? Number(rhs[i]) : null,
+                        iconCode: icons[i] != null ? Number(icons[i]) : (wxPhrases[i] || null)
+                    };
+                    map[minKey] = entry;
+                    map[hourKey] = entry;
                 }
-            ];
+            });
+            return Object.keys(map).length > 0 ? map : null;
+        }
 
-            for (const proxyFn of proxies) {
+        // Parse embedded JSON or DOM from raw Weather.com HTML
+        function parseWeatherComHtml(rawHtml) {
+            if (!rawHtml || rawHtml.length < 1000) return null;
+
+            // Unescape JSON strings if double-escaped inside script tags
+            const html = rawHtml.replace(/\\"/g, '"');
+
+            // 1. Check for validTimeLocal + precipChance / precipPct across the entire document
+            const timeRegex = /"validTimeLocal"\s*:\s*(\[\s*"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{4}"[^\]]*\])/g;
+            let match;
+            while ((match = timeRegex.exec(html)) !== null) {
                 try {
-                    const html = await proxyFn();
-                    if (html && html.length > 1000) return html;
+                    const times = JSON.parse(match[1]);
+                    if (times.length >= 12) {
+                        const t0 = new Date(times[0]).getTime();
+                        const t1 = new Date(times[1]).getTime();
+                        // Ensure 1-hour step (3,600,000 ms), skipping daily forecasts
+                        if (Math.abs(t1 - t0) > 5400000) continue;
+
+                        // Search a large 120,000-char window around validTimeLocal for sibling arrays of identical length
+                        const startPos = Math.max(0, match.index - 80000);
+                        const endPos = Math.min(html.length, match.index + 120000);
+                        const windowStr = html.substring(startPos, endPos);
+
+                        const findArray = (keys) => {
+                            for (const k of keys) {
+                                const r = new RegExp(`"${k}"\\s*:\\s*(\\[[^\\]]+\\])`, 'g');
+                                let m;
+                                while ((m = r.exec(windowStr)) !== null) {
+                                    try {
+                                        const arr = JSON.parse(m[1]);
+                                        if (arr.length === times.length) return arr;
+                                    } catch (e) {}
+                                }
+                            }
+                            return null;
+                        };
+
+                        const temps = findArray(['temperature']);
+                        const pops  = findArray(['precipChance', 'precipPct']);
+                        const rhs   = findArray(['relativeHumidity']);
+                        const icons = findArray(['iconCode']);
+
+                        if (temps && pops) {
+                            const map = buildMapFromTwcJson({
+                                validTimeLocal: times,
+                                temperature: temps,
+                                precipChance: pops,
+                                relativeHumidity: rhs || [],
+                                iconCode: icons || []
+                            });
+                            if (map) return map;
+                        }
+                    }
                 } catch (e) {}
             }
+
+            // 2. DOM Parser Fallback on Weather.com Hour-by-Hour HTML elements
+            try {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(rawHtml, 'text/html');
+                const detailsNodes = doc.querySelectorAll('[data-testid="HourlyForecast"] details, details[class*="DaypartDetails"], [data-testid="DetailsSummary"]');
+                if (detailsNodes.length > 0) {
+                    const now = new Date();
+                    let dayOffset = 0;
+                    let prevHour = -1;
+                    const map = {};
+
+                    detailsNodes.forEach(node => {
+                        const container = node.closest('details') || node;
+                        const timeEl = container.querySelector('[data-testid="daypartName"]');
+                        const tempEl = container.querySelector('[data-testid="TemperatureValue"]');
+                        const popEl  = container.querySelector('[data-testid="Precip"] [data-testid="PercentageValue"], [data-testid="PercentageValue"]');
+                        const rhEl   = container.querySelector('[data-testid="HumiditySection"] [data-testid="PercentageValue"], [data-testid="RelativeHumidity"] [data-testid="PercentageValue"]');
+                        const wxEl   = container.querySelector('[data-testid="wxIcon"] span, [class*="DetailsSummary--condition"]');
+
+                        if (timeEl && tempEl) {
+                            const hmMatch = timeEl.textContent.trim().match(/(\d{1,2}):(\d{2})/);
+                            if (hmMatch) {
+                                const hr = parseInt(hmMatch[1], 10);
+                                if (prevHour !== -1 && hr < prevHour) dayOffset++;
+                                prevHour = hr;
+
+                                const d = new Date(now.getTime() + dayOffset * 86400000);
+                                const dateKey = toHKDateKey(d);
+                                const hh = String(hr).padStart(2, '0');
+                                const hourKey = `${dateKey}T${hh}`;
+
+                                const tempVal = parseInt(tempEl.textContent.replace(/[^\d-]/g, ''), 10);
+                                const popVal  = popEl ? parseInt(popEl.textContent.replace(/[^\d]/g, ''), 10) : 0;
+                                const rhVal   = rhEl ? parseInt(rhEl.textContent.replace(/[^\d]/g, ''), 10) : null;
+                                const wxTxt   = wxEl ? wxEl.textContent.trim() : null;
+
+                                if (!isNaN(tempVal)) {
+                                    map[hourKey] = {
+                                        temp: tempVal,
+                                        pop:  !isNaN(popVal) ? popVal : 0,
+                                        rh:   (rhVal !== null && !isNaN(rhVal)) ? rhVal : null,
+                                        iconCode: wxTxt
+                                    };
+                                    map[`${hourKey}:00`] = map[hourKey];
+                                }
+                            }
+                        }
+                    });
+                    if (Object.keys(map).length > 0) return map;
+                }
+            } catch (e) {}
+
             return null;
         }
 
-        // Enhanced Weather.com parser: handles both escaped & unescaped embedded JSON state
-        async function fetchWeatherComHourly() {
-            try {
-                const rawHtml = await fetchHtmlViaProxies(WEATHER_COM_URL);
-                if (!rawHtml) return null;
+        // Parse Jina Reader text output of Weather.com Hour-by-Hour page
+        function parseJinaWeatherText(text) {
+            if (!text || text.length < 500) return null;
+            const now = new Date();
+            let dayOffset = 0;
+            let prevHour = -1;
+            const map = {};
 
-                const html = rawHtml.replace(/\\"/g, '"');
+            // Match blocks starting with HH:00 followed by temp, condition, precip %, and humidity %
+            const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+            for (let i = 0; i < lines.length; i++) {
+                const timeMatch = lines[i].match(/^(\d{2}):00$/);
+                if (timeMatch) {
+                    const hr = parseInt(timeMatch[1], 10);
+                    if (prevHour !== -1 && hr < prevHour) dayOffset++;
+                    prevHour = hr;
 
-                const popMatches = [...html.matchAll(/"precipPct"\s*:\s*\[([^\]]+)\]/g)];
-                const tempMatches = [...html.matchAll(/"temperature"\s*:\s*\[([^\]]+)\]/g)];
-                const rhMatches = [...html.matchAll(/"relativeHumidity"\s*:\s*\[([^\]]+)\]/g)];
-                const timeMatches = [...html.matchAll(/"validTimeLocal"\s*:\s*\[([^\]]+)\]/g)];
+                    const chunk = lines.slice(i, i + 35).join(' | ');
+                    const tempMatch = chunk.match(/(\d{1,2})°/);
+                    // Look for Rain probability % before Humidity or inside the summary row
+                    const pctMatches = [...chunk.matchAll(/(\d{1,3})%/g)].map(m => parseInt(m[1], 10));
+                    const rhExplicit = chunk.match(/(?:Humidity|湿度|濕度)[^0-9]*(\d{1,3})%/i);
 
-                if (popMatches.length > 0 && timeMatches.length > 0) {
-                    for (let mIdx = 0; mIdx < timeMatches.length; mIdx++) {
-                        try {
-                            const times = JSON.parse(`[${timeMatches[mIdx][1]}]`);
-                            const pops = JSON.parse(`[${(popMatches[mIdx] || popMatches[0])[1]}]`);
-                            const temps = tempMatches[mIdx] ? JSON.parse(`[${tempMatches[mIdx][1]}]`) : (tempMatches[0] ? JSON.parse(`[${tempMatches[0][1]}]`) : []);
-                            const rhs = rhMatches[mIdx] ? JSON.parse(`[${rhMatches[mIdx][1]}]`) : (rhMatches[0] ? JSON.parse(`[${rhMatches[0][1]}]`) : []);
+                    if (tempMatch && pctMatches.length >= 1) {
+                        const d = new Date(now.getTime() + dayOffset * 86400000);
+                        const dateKey = toHKDateKey(d);
+                        const hh = String(hr).padStart(2, '0');
+                        const hourKey = `${dateKey}T${hh}`;
 
-                            if (times.length > 2) {
-                                const hourlyMap = {};
-                                times.forEach((tStr, i) => {
-                                    if (typeof tStr === 'string' && tStr.length >= 16) {
-                                        const hourKey = tStr.substring(0, 13);   // YYYY-MM-DDTHH
-                                        const minKey  = tStr.substring(0, 16);   // YYYY-MM-DDTHH:mm
-                                        const entry = {
-                                            pop: pops[i] != null ? Number(pops[i]) : null,
-                                            temp: temps[i] != null ? Number(temps[i]) : null,
-                                            rh: rhs[i] != null ? Number(rhs[i]) : null
-                                        };
-                                        hourlyMap[minKey] = entry;
-                                        if (!hourlyMap[hourKey]) hourlyMap[hourKey] = entry;
-                                    }
-                                });
-                                if (Object.keys(hourlyMap).length > 0) return hourlyMap;
-                            }
-                        } catch (e) {}
+                        const tempVal = parseInt(tempMatch[1], 10);
+                        const popVal = pctMatches[0];
+                        const rhVal = rhExplicit ? parseInt(rhExplicit[1], 10) : (pctMatches.length >= 2 ? pctMatches[1] : null);
+
+                        map[hourKey] = {
+                            temp: tempVal,
+                            pop: popVal,
+                            rh: rhVal,
+                            iconCode: chunk
+                        };
+                        map[`${hourKey}:00`] = map[hourKey];
                     }
                 }
-            } catch (err) {}
+            }
+            return Object.keys(map).length > 0 ? map : null;
+        }
+
+        // Multi-Tier Weather.com Hourly Fetcher
+        async function fetchWeatherComHourly() {
+            // Tier 1: Direct Weather.com v3 Hourly API (fastest, pure JSON, exact precipChance & relativeHumidity)
+            const twcApiKeys = [
+                'e1f10a1e78da46f5b10a1e78da96f525',
+                '71f92ea9dd2f4790b92ea9dd2f779061',
+                'd522aa97197fd864d36b418f39ebb323'
+            ];
+            for (const key of twcApiKeys) {
+                const apiUrl = `https://api.weather.com/v3/wx/forecast/hourly/2day?geocode=${LAT},${LON}&format=json&units=m&language=en-US&apiKey=${key}`;
+                try {
+                    const res = await fetchWithTimeout(apiUrl, 4500);
+                    if (res.ok) {
+                        const data = await res.json();
+                        const map = buildMapFromTwcJson(data);
+                        if (map) return map;
+                    }
+                } catch (e) {}
+            }
+
+            // Tier 2: Fetch Weather.com Hour-by-Hour HTML via multiple CORS proxies in parallel
+            const targetUrls = [WEATHER_COM_URL_EN, WEATHER_COM_URL_ZH];
+            for (const targetUrl of targetUrls) {
+                const proxyRequests = [
+                    fetchWithTimeout(`https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`, 7000)
+                        .then(r => r.ok ? r.json() : null).then(d => d && d.contents ? parseWeatherComHtml(d.contents) : null),
+                    fetchWithTimeout(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`, 7000)
+                        .then(r => r.ok ? r.text() : null).then(html => parseWeatherComHtml(html)),
+                    fetchWithTimeout(`https://corsproxy.io/?url=${encodeURIComponent(targetUrl)}`, 7000)
+                        .then(r => r.ok ? r.text() : null).then(html => parseWeatherComHtml(html)),
+                    fetchWithTimeout(`https://r.jina.ai/${targetUrl}`, 8000, { 'Accept': 'text/plain' })
+                        .then(r => r.ok ? r.text() : null).then(txt => parseJinaWeatherText(txt))
+                ];
+
+                try {
+                    const results = await Promise.allSettled(proxyRequests);
+                    for (const res of results) {
+                        if (res.status === 'fulfilled' && res.value && Object.keys(res.value).length > 0) {
+                            return res.value;
+                        }
+                    }
+                } catch (e) {}
+            }
+
             return null;
         }
 
@@ -514,10 +705,9 @@
             try {
                 syncStatusEl.textContent = 'Syncing...';
 
-                // Fetch HKO Warnings/Temp + High-Res 15-Minute & Hourly Forecast + Weather.com Direct Feed
-                const openMeteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code,is_day&minutely_15=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code&timezone=Asia%2FHong_Kong&forecast_days=3`;
+                const openMeteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code,is_day&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,weather_code&timezone=Asia%2FHong_Kong&forecast_days=3`;
 
-                const [rhrEnRes, warnSumRes, openMeteoRes, weatherComMap] = await Promise.all([
+                const [rhrEnRes, warnSumRes, omRes, weatherComMap] = await Promise.all([
                     fetch('https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=en', { cache: 'no-store' }).catch(() => null),
                     fetch('https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=warnsum&lang=en', { cache: 'no-store' }).catch(() => null),
                     fetch(openMeteoUrl, { cache: 'no-store' }),
@@ -528,42 +718,31 @@
                 if (rhrEnRes && rhrEnRes.ok) { try { rhrEn = await rhrEnRes.json(); } catch(e){} }
                 let warnSum = {};
                 if (warnSumRes && warnSumRes.ok) { try { warnSum = await warnSumRes.json(); } catch(e){} }
-                const omData = await openMeteoRes.json();
+                const omData = await omRes.json();
 
                 if (badgeEl) {
-                    badgeEl.textContent = weatherComMap ? 'Weather.com Live' : '15-Min High-Res';
+                    badgeEl.textContent = weatherComMap ? 'Weather.com Live' : 'HKO / Open-Meteo';
                 }
 
                 const now = new Date();
                 const currentHour = parseInt(now.toLocaleTimeString('en-GB', { hour: '2-digit', hour12: false, timeZone: 'Asia/Hong_Kong' }), 10);
-                const currentMin = parseInt(now.toLocaleTimeString('en-GB', { minute: '2-digit', hour12: false, timeZone: 'Asia/Hong_Kong' }), 10);
-                const roundedQuarter = String(Math.floor(currentMin / 15) * 15).padStart(2, '0');
-
                 const hourlyTimes = omData.hourly && omData.hourly.time ? omData.hourly.time : [];
-                const min15Times = omData.minutely_15 && omData.minutely_15.time ? omData.minutely_15.time : [];
 
-                // Helper to get exact 15-min or hourly slot for any target hour & minute
-                const getSlotData = (targetHour, targetMin = '00', dayOffset = 0) => {
+                // Helper to get exact hourly slot for any target hour
+                const getSlotData = (targetHour, dayOffset = 0) => {
                     const d = new Date(now.getTime() + dayOffset * 86400000);
                     const datePart = toHKDateKey(d);
                     const hh = String(targetHour).padStart(2, '0');
-                    const mm = String(targetMin).padStart(2, '0');
 
                     const hourKey = `${datePart}T${hh}`;
-                    const exactTimeStr = `${datePart}T${hh}:${mm}`;
+                    const exactTimeStr = `${datePart}T${hh}:00`;
 
                     // 1. Check Weather.com parsed map first
                     const wcEntry = weatherComMap ? (weatherComMap[exactTimeStr] || weatherComMap[hourKey]) : null;
 
-                    // 2. Check 15-minute high-resolution array (matches 10:45, 11:00, 12:00 etc.)
-                    const m15Idx = min15Times.indexOf(exactTimeStr);
-                    const hrIdx = hourlyTimes.indexOf(`${hourKey}:00`);
+                    // 2. Fallback to Open-Meteo hourly array
+                    const hrIdx = hourlyTimes.indexOf(exactTimeStr);
                     const safeHrIdx = hrIdx !== -1 ? hrIdx : (dayOffset * 24 + targetHour);
-
-                    const m15Temp = (m15Idx !== -1 && omData.minutely_15.temperature_2m) ? omData.minutely_15.temperature_2m[m15Idx] : null;
-                    const m15Rh   = (m15Idx !== -1 && omData.minutely_15.relative_humidity_2m) ? omData.minutely_15.relative_humidity_2m[m15Idx] : null;
-                    const m15Pop  = (m15Idx !== -1 && omData.minutely_15.precipitation_probability) ? omData.minutely_15.precipitation_probability[m15Idx] : null;
-                    const m15Wmo  = (m15Idx !== -1 && omData.minutely_15.weather_code) ? omData.minutely_15.weather_code[m15Idx] : null;
 
                     const hrTemp = (omData.hourly && omData.hourly.temperature_2m) ? omData.hourly.temperature_2m[safeHrIdx] : null;
                     const hrRh   = (omData.hourly && omData.hourly.relative_humidity_2m) ? omData.hourly.relative_humidity_2m[safeHrIdx] : null;
@@ -571,21 +750,24 @@
                     const hrWmo  = (omData.hourly && omData.hourly.weather_code) ? omData.hourly.weather_code[safeHrIdx] : 1;
 
                     const temp = (wcEntry && wcEntry.temp != null) ? Math.round(wcEntry.temp)
-                               : (m15Temp != null ? Math.round(m15Temp) : (hrTemp != null ? Math.round(hrTemp) : '--'));
+                               : (hrTemp != null ? Math.round(hrTemp) : '--');
 
                     const rh = (wcEntry && wcEntry.rh != null) ? Math.round(wcEntry.rh)
-                             : (m15Rh != null ? Math.round(m15Rh) : (hrRh != null ? Math.round(hrRh) : '--'));
+                             : (hrRh != null ? Math.round(hrRh) : '--');
 
                     const pop = (wcEntry && wcEntry.pop != null) ? Math.round(wcEntry.pop)
-                              : (m15Pop != null ? Math.round(m15Pop) : (hrPop != null ? Math.round(hrPop) : 0));
+                              : (hrPop != null ? Math.round(hrPop) : 0);
 
-                    const wmoCode = m15Wmo != null ? m15Wmo : hrWmo;
+                    const isNightSlot = targetHour < 6 || targetHour >= 18;
+                    const iconClass = (wcEntry && wcEntry.iconCode != null)
+                        ? getTwcIcon(wcEntry.iconCode, isNightSlot)
+                        : getWmoIcon(hrWmo, isNightSlot);
 
-                    return { temp, rh, pop, wmoCode };
+                    return { temp, rh, pop, iconClass };
                 };
 
-                // --- 1. Current Weather Panel (Matches Current 15-min slot) ---
-                const currMetrics = getSlotData(currentHour, roundedQuarter, 0);
+                // --- 1. Current Weather Panel ---
+                const currMetrics = getSlotData(currentHour, 0);
 
                 let displayCurrTemp = currMetrics.temp;
                 if (displayCurrTemp === '--' && rhrEn.temperature && rhrEn.temperature.data) {
@@ -600,11 +782,12 @@
 
                 document.getElementById('curr-pop-badge').textContent = `${currMetrics.pop}%`;
 
-                if (rhrEn.icon && rhrEn.icon.length > 0) {
+                if (weatherComMap && currMetrics.iconClass) {
+                    document.getElementById('weather-icon').className = `fa-solid ${currMetrics.iconClass} text-3xl md:text-4xl drop-shadow-lg shrink-0`;
+                } else if (rhrEn.icon && rhrEn.icon.length > 0) {
                     document.getElementById('weather-icon').className = `fa-solid ${getFontAwesomeIcon(rhrEn.icon[0])} text-3xl md:text-4xl drop-shadow-lg shrink-0`;
                 } else {
-                    const isNightNow = currentHour < 6 || currentHour >= 18;
-                    document.getElementById('weather-icon').className = `fa-solid ${getWmoIcon(currMetrics.wmoCode, isNightNow)} text-3xl md:text-4xl drop-shadow-lg shrink-0`;
+                    document.getElementById('weather-icon').className = `fa-solid ${currMetrics.iconClass} text-3xl md:text-4xl drop-shadow-lg shrink-0`;
                 }
 
                 // --- 2. Weather Warnings Banner ---
@@ -648,11 +831,11 @@
                     cardAft.classList.add('opacity-0', 'pointer-events-none');
                 } else {
                     cardAft.classList.remove('opacity-0', 'pointer-events-none');
-                    const m12 = getSlotData(12, '00', 0);
+                    const m12 = getSlotData(12, 0);
                     document.getElementById('f1-temp').textContent = `${m12.temp}°C`;
                     document.getElementById('f1-rh').textContent = `${m12.rh}% RH`;
                     document.getElementById('f1-psr').textContent = `${m12.pop}%`;
-                    document.getElementById('f1-icon').className = `fa-solid ${getWmoIcon(m12.wmoCode, false)} text-2xl md:text-3xl drop-shadow`;
+                    document.getElementById('f1-icon').className = `fa-solid ${m12.iconClass} text-2xl md:text-3xl drop-shadow`;
                 }
 
                 const cardNight = document.getElementById('card-night');
@@ -660,18 +843,18 @@
                     cardNight.classList.add('opacity-0', 'pointer-events-none');
                 } else {
                     cardNight.classList.remove('opacity-0', 'pointer-events-none');
-                    const m18 = getSlotData(18, '00', 0);
+                    const m18 = getSlotData(18, 0);
                     document.getElementById('f2-temp').textContent = `${m18.temp}°C`;
                     document.getElementById('f2-rh').textContent = `${m18.rh}% RH`;
                     document.getElementById('f2-psr').textContent = `${m18.pop}%`;
-                    document.getElementById('f2-icon').className = `fa-solid ${getWmoIcon(m18.wmoCode, true)} text-2xl md:text-3xl drop-shadow`;
+                    document.getElementById('f2-icon').className = `fa-solid ${m18.iconClass} text-2xl md:text-3xl drop-shadow`;
                 }
 
-                const mTmr8 = getSlotData(8, '00', 1);
+                const mTmr8 = getSlotData(8, 1);
                 document.getElementById('f3-temp').textContent = `${mTmr8.temp}°C`;
                 document.getElementById('f3-rh').textContent = `${mTmr8.rh}% RH`;
                 document.getElementById('f3-psr').textContent = `${mTmr8.pop}%`;
-                document.getElementById('f3-icon').className = `fa-solid ${getWmoIcon(mTmr8.wmoCode, false)} text-2xl md:text-3xl drop-shadow`;
+                document.getElementById('f3-icon').className = `fa-solid ${mTmr8.iconClass} text-2xl md:text-3xl drop-shadow`;
 
                 syncStatusEl.textContent = `Upd ${now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Hong_Kong' })}`;
             } catch (error) {
