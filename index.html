@@ -84,8 +84,8 @@
     <!-- Left Column: 34% width to maximize Calendar Events area -->
     <div class="flex flex-col w-[34%] h-full gap-2">
         
-        <!-- Top Section: Location, Maximized 24hr Time with Seconds, English Date (25% height) -->
-        <div class="glass-panel rounded-2xl px-3 py-2 flex flex-col justify-between h-[25%]">
+        <!-- Top Section: Location, Enlarged Clock (+1 to 2 steps), English Date (27% height) -->
+        <div class="glass-panel rounded-2xl px-3 py-2 flex flex-col justify-between h-[27%]">
             <div class="flex items-center justify-between gap-1">
                 <div class="flex items-center gap-1.5 text-slate-300 text-xs md:text-sm font-medium truncate">
                     <i class="fa-solid fa-location-dot text-blue-400 shrink-0"></i>
@@ -94,8 +94,8 @@
                 <span id="weather-sync-status" class="text-[10px] text-slate-500 font-mono shrink-0">Syncing...</span>
             </div>
             
-            <!-- Live Clock: Fluidly maximized for 34% column width without overflowing -->
-            <div id="clock-time" class="text-[5.3vw] font-extrabold tracking-tighter text-white leading-none my-0.5 font-mono text-center w-full">
+            <!-- Live Clock: Enlarged text size -->
+            <div id="clock-time" class="text-[6.2vw] font-extrabold tracking-tighter text-white leading-none my-0.5 font-mono text-center w-full">
                 --:--:--
             </div>
             
@@ -105,36 +105,36 @@
             </div>
         </div>
 
-        <!-- Current Weather Section (19% height) -->
-        <div class="glass-panel rounded-2xl px-3 py-2 flex items-center justify-between h-[19%]">
+        <!-- Current Weather Section: Reduced Height (14% height) -->
+        <div class="glass-panel rounded-2xl px-3 py-1 flex items-center justify-between h-[14%]">
             <div class="flex items-center">
-                <span id="weather-temp" class="text-[4.2vw] font-extrabold text-white tracking-tighter leading-none drop-shadow-md">--°C</span>
+                <span id="weather-temp" class="text-[3.8vw] font-extrabold text-white tracking-tighter leading-none drop-shadow-md">--°C</span>
             </div>
             <div class="flex items-center gap-3">
-                <i id="weather-icon" class="fa-solid fa-spinner fa-spin text-5xl md:text-6xl text-blue-400 drop-shadow-lg shrink-0"></i>
-                <div class="text-slate-300 font-medium leading-tight border-l border-slate-600 pl-3 flex flex-col items-start gap-1">
-                    <div id="weather-details-en" class="text-sm md:text-base font-bold text-slate-200 whitespace-nowrap">Humidity: --%</div>
+                <i id="weather-icon" class="fa-solid fa-spinner fa-spin text-4xl md:text-5xl text-blue-400 drop-shadow-lg shrink-0"></i>
+                <div class="text-slate-300 font-medium leading-tight border-l border-slate-600 pl-2.5 flex flex-col items-start gap-0.5">
+                    <div id="weather-details-en" class="text-xs md:text-sm font-bold text-slate-200 whitespace-nowrap">Humidity: --%</div>
                     <!-- Live Rain Probability Pill Badge -->
-                    <div class="flex items-center gap-1.5 text-xs md:text-sm text-cyan-300 font-bold bg-slate-800/90 px-2.5 py-0.5 rounded-full border border-cyan-500/40 shadow-sm" title="Current Precipitation Probability">
-                        <i class="fa-solid fa-umbrella text-cyan-400 text-xs"></i>
+                    <div class="flex items-center gap-1 text-[11px] md:text-xs text-cyan-300 font-bold bg-slate-800/90 px-2 py-0.5 rounded-full border border-cyan-500/40 shadow-sm" title="Current Precipitation Probability">
+                        <i class="fa-solid fa-umbrella text-cyan-400 text-[10px]"></i>
                         <span id="curr-pop-badge">--%</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Weather Alert Banner: Stacked Vertical Layout so Title NEVER Overlaps the 2x Enlarged Icons (16% height) -->
-        <div id="alert-container" class="alert-panel rounded-2xl px-3.5 py-2 flex flex-col justify-between h-[16%] overflow-hidden">
-            <!-- Warning Header -->
-            <div class="flex items-center gap-2 text-amber-400 font-extrabold text-sm md:text-base uppercase tracking-wider shrink-0">
-                <i class="fa-solid fa-triangle-exclamation text-base md:text-lg drop-shadow"></i>
+        <!-- Weather Alert Banner: Reduced Header Text + 2x Enlarged HKO Icons (19% height) -->
+        <div id="alert-container" class="alert-panel rounded-2xl px-3 py-1.5 flex flex-col justify-between h-[19%] overflow-hidden">
+            <!-- Compact Warning Header -->
+            <div class="flex items-center gap-1.5 text-amber-400 font-bold text-xs md:text-sm uppercase tracking-wider shrink-0">
+                <i class="fa-solid fa-triangle-exclamation text-xs md:text-sm drop-shadow"></i>
                 <span>Weather Warnings 天氣警告</span>
             </div>
             
-            <!-- Dynamic Alert Icons List (Left-aligned in its own row to give full horizontal width) -->
-            <div id="alert-icons-list" class="flex-1 flex items-center justify-start gap-3 pt-1 overflow-x-auto no-scrollbar min-h-0">
-                <div class="flex items-center gap-2 text-slate-300 text-xs md:text-sm font-semibold bg-slate-800/60 px-3 py-1 rounded-xl border border-slate-700/50 whitespace-nowrap">
-                    <i class="fa-solid fa-shield-halved text-emerald-400 text-sm md:text-base"></i>
+            <!-- Dynamic Alert Icons List: Maximize vertical space for 2x larger icons -->
+            <div id="alert-icons-list" class="flex-1 flex items-center justify-start gap-3 py-0.5 overflow-x-auto no-scrollbar min-h-0">
+                <div class="flex items-center gap-1.5 text-slate-300 text-xs font-semibold bg-slate-800/60 px-2.5 py-1 rounded-lg border border-slate-700/50 whitespace-nowrap">
+                    <i class="fa-solid fa-shield-halved text-emerald-400 text-xs"></i>
                     <span>No active signals</span>
                 </div>
             </div>
@@ -492,7 +492,7 @@
             if (files && files.length > 0) {
                 const firstUrl = HKO_WARN_BASE + files[0];
                 // 2x enlarged square HKO warning icon filling the bottom row cleanly
-                return `<img src="${firstUrl}" data-files="${files.join(',')}" data-idx="0" alt="${safeName}" title="${safeName}" referrerpolicy="no-referrer" onerror="tryAltHkoImg(this, '${cleanCode}', '${safeName}')" class="h-full max-h-[8.5dvh] w-auto aspect-square object-contain rounded-lg bg-white p-0.5 shadow-md shrink-0">`;
+                return `<img src="${firstUrl}" data-files="${files.join(',')}" data-idx="0" alt="${safeName}" title="${safeName}" referrerpolicy="no-referrer" onerror="tryAltHkoImg(this, '${cleanCode}', '${safeName}')" class="h-full max-h-[12dvh] w-auto aspect-square object-contain rounded-lg bg-white p-0.5 shadow-md shrink-0">`;
             }
             return getFallbackBadge(cleanCode, name);
         }
@@ -803,7 +803,7 @@
                     return { temp, rh, pop, iconClass };
                 };
 
-                // --- 1. Current Weather Panel (Enlarged Weather Icon) ---
+                // --- 1. Current Weather Panel ---
                 const currMetrics = getSlotData(currentHour, 0);
 
                 let displayCurrTemp = currMetrics.temp;
@@ -820,11 +820,11 @@
                 document.getElementById('curr-pop-badge').textContent = `${currMetrics.pop}%`;
 
                 if (weatherComMap && currMetrics.iconClass) {
-                    document.getElementById('weather-icon').className = `fa-solid ${currMetrics.iconClass} text-5xl md:text-6xl drop-shadow-lg shrink-0`;
+                    document.getElementById('weather-icon').className = `fa-solid ${currMetrics.iconClass} text-4xl md:text-5xl drop-shadow-lg shrink-0`;
                 } else if (rhrEn.icon && rhrEn.icon.length > 0) {
-                    document.getElementById('weather-icon').className = `fa-solid ${getFontAwesomeIcon(rhrEn.icon[0])} text-5xl md:text-6xl drop-shadow-lg shrink-0`;
+                    document.getElementById('weather-icon').className = `fa-solid ${getFontAwesomeIcon(rhrEn.icon[0])} text-4xl md:text-5xl drop-shadow-lg shrink-0`;
                 } else {
-                    document.getElementById('weather-icon').className = `fa-solid ${currMetrics.iconClass} text-5xl md:text-6xl drop-shadow-lg shrink-0`;
+                    document.getElementById('weather-icon').className = `fa-solid ${currMetrics.iconClass} text-4xl md:text-5xl drop-shadow-lg shrink-0`;
                 }
 
                 // --- 2. Weather Warnings Banner ---
@@ -863,10 +863,10 @@
                     alertIconsList.innerHTML = activeBadges.join('');
                 } else {
                     alertContainer.classList.remove('has-warning');
-                    alertIconsList.innerHTML = `<div class="flex items-center gap-2 text-slate-300 text-xs md:text-sm font-semibold bg-slate-800/60 px-3 py-1 rounded-xl border border-slate-700/50 whitespace-nowrap"><i class="fa-solid fa-shield-halved text-emerald-400 text-sm md:text-base"></i><span>No active signals</span></div>`;
+                    alertIconsList.innerHTML = `<div class="flex items-center gap-1.5 text-slate-300 text-xs font-semibold bg-slate-800/60 px-2.5 py-1 rounded-lg border border-slate-700/50 whitespace-nowrap"><i class="fa-solid fa-shield-halved text-emerald-400 text-xs"></i><span>No active signals</span></div>`;
                 }
 
-                // --- 3. Forecast Cards (Enlarged Forecast Icons) ---
+                // --- 3. Forecast Cards ---
                 const cardAft = document.getElementById('card-aft');
                 if (currentHour >= 12) {
                     cardAft.classList.add('opacity-0', 'pointer-events-none');
