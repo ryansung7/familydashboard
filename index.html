@@ -81,11 +81,11 @@
 </head>
 <body class="h-[100dvh] w-screen p-2 flex gap-2 bg-gradient-to-br from-slate-900 via-gray-900 to-black text-slate-100">
 
-    <!-- Left Column: Reduced to 34% width to maximize Calendar Events area -->
+    <!-- Left Column: 34% width to maximize Calendar Events area -->
     <div class="flex flex-col w-[34%] h-full gap-2">
         
-        <!-- Top Section: Location, Maximized 24hr Time with Seconds, English Date -->
-        <div class="glass-panel rounded-2xl px-3 py-2.5 flex flex-col justify-between h-[28%]">
+        <!-- Top Section: Location, Maximized 24hr Time with Seconds, English Date (25% height) -->
+        <div class="glass-panel rounded-2xl px-3 py-2 flex flex-col justify-between h-[25%]">
             <div class="flex items-center justify-between gap-1">
                 <div class="flex items-center gap-1.5 text-slate-300 text-xs md:text-sm font-medium truncate">
                     <i class="fa-solid fa-location-dot text-blue-400 shrink-0"></i>
@@ -105,14 +105,14 @@
             </div>
         </div>
 
-        <!-- Current Weather Section -->
-        <div class="glass-panel rounded-2xl px-3 py-2 flex items-center justify-between h-[20%]">
+        <!-- Current Weather Section: 2x Enlarged Weather Icon (19% height) -->
+        <div class="glass-panel rounded-2xl px-3 py-2 flex items-center justify-between h-[19%]">
             <div class="flex items-center">
                 <span id="weather-temp" class="text-[4.2vw] font-extrabold text-white tracking-tighter leading-none drop-shadow-md">--°C</span>
             </div>
-            <div class="flex items-center gap-2.5">
-                <i id="weather-icon" class="fa-solid fa-spinner fa-spin text-3xl md:text-4xl text-blue-400 drop-shadow-lg shrink-0"></i>
-                <div class="text-slate-300 font-medium leading-tight border-l border-slate-600 pl-2.5 flex flex-col items-start gap-1">
+            <div class="flex items-center gap-3">
+                <i id="weather-icon" class="fa-solid fa-spinner fa-spin text-6xl md:text-7xl text-blue-400 drop-shadow-lg shrink-0"></i>
+                <div class="text-slate-300 font-medium leading-tight border-l border-slate-600 pl-3 flex flex-col items-start gap-1">
                     <div id="weather-details-en" class="text-sm md:text-base font-bold text-slate-200 whitespace-nowrap">Humidity: --%</div>
                     <!-- Live Rain Probability Pill Badge -->
                     <div class="flex items-center gap-1.5 text-xs md:text-sm text-cyan-300 font-bold bg-slate-800/90 px-2.5 py-0.5 rounded-full border border-cyan-500/40 shadow-sm" title="Current Precipitation Probability">
@@ -123,24 +123,24 @@
             </div>
         </div>
 
-        <!-- Compact Weather Alert Banner -->
-        <div id="alert-container" class="alert-panel rounded-xl px-3 py-1 flex items-center justify-between gap-1.5 h-[10%]">
-            <div class="flex items-center gap-1.5 text-slate-300 font-bold text-[11px] md:text-xs uppercase tracking-wider shrink-0">
-                <i class="fa-solid fa-triangle-exclamation text-amber-400 text-xs"></i>
+        <!-- Weather Alert Banner: Expanded to 15% height for 2x Bigger HKO Icons & Enlarged Warning Text -->
+        <div id="alert-container" class="alert-panel rounded-2xl px-3.5 py-1 flex items-center justify-between gap-2 h-[15%] overflow-hidden">
+            <div class="flex items-center gap-2 text-slate-200 font-extrabold text-xl md:text-2xl uppercase tracking-wide shrink-0">
+                <i class="fa-solid fa-triangle-exclamation text-amber-400 text-2xl md:text-3xl drop-shadow"></i>
                 <span>Warnings</span>
             </div>
             
             <!-- Dynamic Alert Icons List -->
-            <div id="alert-icons-list" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-                <div class="flex items-center gap-1.5 text-slate-300 text-xs font-medium bg-slate-800/60 px-2.5 py-1 rounded-lg border border-slate-700/50 whitespace-nowrap">
-                    <i class="fa-solid fa-shield-halved text-emerald-400 text-xs"></i>
+            <div id="alert-icons-list" class="flex items-center justify-end gap-2.5 h-full py-0.5 overflow-x-auto no-scrollbar">
+                <div class="flex items-center gap-2 text-slate-300 text-sm md:text-base font-semibold bg-slate-800/60 px-3 py-1.5 rounded-xl border border-slate-700/50 whitespace-nowrap">
+                    <i class="fa-solid fa-shield-halved text-emerald-400 text-base md:text-lg"></i>
                     <span>No active signals</span>
                 </div>
             </div>
         </div>
 
-        <!-- Forecast Section: Enlarged Font Sizes inside 3 Cards (42% height) -->
-        <div class="h-[42%] flex flex-col justify-end min-h-0">
+        <!-- Forecast Section: 2x Enlarged Forecast Icons inside 3 Cards (41% height) -->
+        <div class="h-[41%] flex flex-col justify-end min-h-0">
             <div class="flex items-center justify-between mb-1 px-1 shrink-0">
                 <div class="text-slate-300 font-bold uppercase tracking-wider text-xs md:text-sm flex items-center gap-2">
                     <span>Forecast 天氣預報</span>
@@ -156,7 +156,7 @@
                     </div>
                     
                     <div class="my-0.5 flex items-center justify-center">
-                        <i id="f1-icon" class="fa-solid fa-cloud-sun text-2xl md:text-3xl text-yellow-300 drop-shadow"></i>
+                        <i id="f1-icon" class="fa-solid fa-cloud-sun text-5xl md:text-6xl text-yellow-300 drop-shadow"></i>
                     </div>
 
                     <div id="f1-temp" class="text-xl md:text-2xl font-extrabold text-white leading-none">
@@ -180,7 +180,7 @@
                     </div>
                     
                     <div class="my-0.5 flex items-center justify-center">
-                        <i id="f2-icon" class="fa-solid fa-moon text-2xl md:text-3xl text-indigo-200 drop-shadow"></i>
+                        <i id="f2-icon" class="fa-solid fa-moon text-5xl md:text-6xl text-indigo-200 drop-shadow"></i>
                     </div>
 
                     <div id="f2-temp" class="text-xl md:text-2xl font-extrabold text-white leading-none">
@@ -204,7 +204,7 @@
                     </div>
                     
                     <div class="my-0.5 flex items-center justify-center">
-                        <i id="f3-icon" class="fa-solid fa-cloud-sun text-2xl md:text-3xl text-yellow-300 drop-shadow"></i>
+                        <i id="f3-icon" class="fa-solid fa-cloud-sun text-5xl md:text-6xl text-yellow-300 drop-shadow"></i>
                     </div>
 
                     <div id="f3-temp" class="text-xl md:text-2xl font-extrabold text-white leading-none">
@@ -369,7 +369,7 @@
                 if (code === 31 || code === 33) return 'fa-moon text-indigo-200';
                 if (code === 32 || code === 34 || code === 36) return 'fa-sun text-yellow-400';
             }
-            return isNight ? 'fa-cloud-moon text-indigo-300' : 'fa-cloud-sun text-yellow-300';
+            return isNight ? 'fa-cloud-moon text-indigo-300' : 'fa-cloud-sun text-yellow-400';
         }
 
         function getWmoIcon(code, isNight = false) {
@@ -417,47 +417,83 @@
             return iconMap[hkoIconCode] || 'fa-cloud-sun text-yellow-400';
         }
 
-        const hkoWarningIconMap = {
-            'WFIREY': 'https://www.hko.gov.hk/textonly/v2/images/wfiry.gif',  
-            'WFIRER': 'https://www.hko.gov.hk/textonly/v2/images/wfirr.gif',  
-            'WRAINA': 'https://www.hko.gov.hk/textonly/v2/images/wraina.gif', 
-            'WRAINR': 'https://www.hko.gov.hk/textonly/v2/images/wrainr.gif', 
-            'WRAINB': 'https://www.hko.gov.hk/textonly/v2/images/wrainb.gif', 
-            'WTS':    'https://www.hko.gov.hk/textonly/v2/images/ts.gif',     
-            'TC1':    'https://www.hko.gov.hk/textonly/v2/images/tc1.gif',    
-            'TC3':    'https://www.hko.gov.hk/textonly/v2/images/tc3.gif',    
-            'TC8NE':  'https://www.hko.gov.hk/textonly/v2/images/tc8ne.gif',  
-            'TC8SE':  'https://www.hko.gov.hk/textonly/v2/images/tc8se.gif',  
-            'TC8NW':  'https://www.hko.gov.hk/textonly/v2/images/tc8nw.gif',  
-            'TC8SW':  'https://www.hko.gov.hk/textonly/v2/images/tc8sw.gif',  
-            'TC9':    'https://www.hko.gov.hk/textonly/v2/images/tc9.gif',    
-            'TC10':   'https://www.hko.gov.hk/textonly/v2/images/tc10.gif',   
-            'WCOLD':  'https://www.hko.gov.hk/textonly/v2/images/cold.gif',   
-            'WHOT':   'https://www.hko.gov.hk/textonly/v2/images/vhot.gif',   
-            'WMS':    'https://www.hko.gov.hk/textonly/v2/images/sms.gif',    
-            'WLAND':  'https://www.hko.gov.hk/textonly/v2/images/landslip.gif',
-            'FROST':  'https://www.hko.gov.hk/textonly/v2/images/frost.gif'   
+        // Exact Official HKO Warning Signal Icon filenames on https://www.hko.gov.hk/en/textonly/img/warn/images/
+        const HKO_WARN_BASE = 'https://www.hko.gov.hk/en/textonly/img/warn/images/';
+        const hkoWarningFileCandidates = {
+            'WFIREY': ['firey.gif', 'wfirey.gif', 'wfiry.gif'],
+            'WFIRER': ['firer.gif', 'wfirer.gif', 'wfirr.gif'],
+            'WRAINA': ['raina.gif', 'wraina.gif'],
+            'WRAINR': ['rainr.gif', 'wrainr.gif'],
+            'WRAINB': ['rainb.gif', 'wrainb.gif'],
+            'WTS':    ['ts.gif', 'wts.gif'],
+            'TC1':    ['tc1.gif'],
+            'TC3':    ['tc3.gif'],
+            'TC8NE':  ['tc8ne.gif'],
+            'TC8SE':  ['tc8se.gif'],
+            'TC8NW':  ['tc8nw.gif'],
+            'TC8SW':  ['tc8sw.gif'],
+            'TC9':    ['tc9.gif'],
+            'TC10':   ['tc10.gif'],
+            'WCOLD':  ['cold.gif', 'wcold.gif'],
+            'WHOT':   ['vhot.gif', 'whot.gif'],
+            'WMSGNL': ['sms.gif', 'wmsgnl.gif'],
+            'WMS':    ['sms.gif', 'wmsgnl.gif'],
+            'WLAND':  ['landslip.gif', 'wl.gif'],
+            'WL':     ['landslip.gif', 'wl.gif'],
+            'WFROST': ['frost.gif', 'wfrost.gif'],
+            'FROST':  ['frost.gif', 'wfrost.gif'],
+            'WFNTSA': ['ntfl.gif', 'wfntsa.gif'],
+            'WTMW':   ['tsunami.gif', 'wtmw.gif']
         };
 
         function getFallbackBadge(code, name) {
             const codeUpper = (code || '').toUpperCase();
-            if (codeUpper.includes('FIREY')) return `<div class="bg-yellow-500/20 text-yellow-300 text-xs font-bold px-2 py-0.5 rounded-lg border border-yellow-400 flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-fire text-yellow-400"></i><span>Yellow Fire</span></div>`;
-            if (codeUpper.includes('FIRER')) return `<div class="bg-red-500/20 text-red-300 text-xs font-bold px-2 py-0.5 rounded-lg border border-red-500 flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-fire-flame-curved text-red-400"></i><span>Red Fire</span></div>`;
-            if (codeUpper.includes('RAINA')) return `<div class="bg-amber-500/20 text-amber-300 text-xs font-bold px-2 py-0.5 rounded-lg border border-amber-400 flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-cloud-showers-heavy text-amber-400"></i><span>Amber Rain</span></div>`;
-            if (codeUpper.includes('RAINR')) return `<div class="bg-red-600/30 text-red-200 text-xs font-bold px-2 py-0.5 rounded-lg border border-red-500 flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-cloud-showers-water text-red-400"></i><span>Red Rain</span></div>`;
-            if (codeUpper.includes('RAINB')) return `<div class="bg-slate-900 text-slate-100 text-xs font-bold px-2 py-0.5 rounded-lg border border-slate-500 flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-cloud-showers-heavy text-white"></i><span>Black Rain</span></div>`;
-            if (codeUpper.includes('TS')) return `<div class="bg-amber-500/20 text-amber-300 text-xs font-bold px-2 py-0.5 rounded-lg border border-amber-400 flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-bolt text-yellow-300"></i><span>Thunderstorm</span></div>`;
-            if (codeUpper.includes('TC')) return `<div class="bg-red-500/20 text-red-300 text-xs font-bold px-2 py-0.5 rounded-lg border border-red-400 flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-hurricane text-red-400"></i><span>${name || 'Typhoon'}</span></div>`;
-            return `<div class="bg-amber-500/20 text-amber-300 text-xs font-bold px-2 py-0.5 rounded-lg border border-amber-500/50 flex items-center gap-1 whitespace-nowrap"><i class="fa-solid fa-triangle-exclamation text-amber-400"></i><span>${name || code}</span></div>`;
+            if (codeUpper.includes('FIREY')) return `<div class="bg-yellow-500/20 text-yellow-300 text-sm font-bold px-2.5 py-1 rounded-lg border border-yellow-400 flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-fire text-yellow-400"></i><span>Yellow Fire</span></div>`;
+            if (codeUpper.includes('FIRER')) return `<div class="bg-red-500/20 text-red-300 text-sm font-bold px-2.5 py-1 rounded-lg border border-red-500 flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-fire-flame-curved text-red-400"></i><span>Red Fire</span></div>`;
+            if (codeUpper.includes('RAINA')) return `<div class="bg-amber-500/20 text-amber-300 text-sm font-bold px-2.5 py-1 rounded-lg border border-amber-400 flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-cloud-showers-heavy text-amber-400"></i><span>Amber Rain</span></div>`;
+            if (codeUpper.includes('RAINR')) return `<div class="bg-red-600/30 text-red-200 text-sm font-bold px-2.5 py-1 rounded-lg border border-red-500 flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-cloud-showers-water text-red-400"></i><span>Red Rain</span></div>`;
+            if (codeUpper.includes('RAINB')) return `<div class="bg-slate-900 text-slate-100 text-sm font-bold px-2.5 py-1 rounded-lg border border-slate-500 flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-cloud-showers-heavy text-white"></i><span>Black Rain</span></div>`;
+            if (codeUpper.includes('TS')) return `<div class="bg-amber-500/20 text-amber-300 text-sm font-bold px-2.5 py-1 rounded-lg border border-amber-400 flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-bolt text-yellow-300"></i><span>Thunderstorm</span></div>`;
+            if (codeUpper.includes('TC')) return `<div class="bg-red-500/20 text-red-300 text-sm font-bold px-2.5 py-1 rounded-lg border border-red-400 flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-hurricane text-red-400"></i><span>${name || 'Typhoon'}</span></div>`;
+            return `<div class="bg-amber-500/20 text-amber-300 text-sm font-bold px-2.5 py-1 rounded-lg border border-amber-500/50 flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-triangle-exclamation text-amber-400"></i><span>${name || code}</span></div>`;
         }
 
-        function renderWarningBadge(code, name) {
-            let imgUrl = hkoWarningIconMap[code];
-            const safeName = (name || '').replace(/'/g, "\\'");
-            if (imgUrl) {
-                return `<img src="${imgUrl}" alt="${name}" title="${name}" referrerpolicy="no-referrer" onerror="this.outerHTML=getFallbackBadge('${code}', '${safeName}')" class="h-6 md:h-7 object-contain rounded border border-amber-400/40 bg-slate-900/60 p-0.5 shadow-sm">`;
+        // Cycles through alternate HKO filenames if the first filename returns 404
+        window.tryAltHkoImg = function(imgEl, code, safeName) {
+            const list = (imgEl.dataset.files || '').split(',').filter(Boolean);
+            let idx = parseInt(imgEl.dataset.idx || '0', 10) + 1;
+            if (idx < list.length) {
+                imgEl.dataset.idx = idx;
+                imgEl.src = HKO_WARN_BASE + list[idx];
+            } else {
+                imgEl.outerHTML = getFallbackBadge(code, safeName);
             }
-            return getFallbackBadge(code, name);
+        };
+
+        function renderWarningBadge(code, name) {
+            const cleanCode = (code || '').toUpperCase();
+            let files = hkoWarningFileCandidates[cleanCode];
+            if (!files) {
+                const combined = `${cleanCode} ${(name || '').toUpperCase()}`;
+                if (combined.includes('MONSOON') || combined.includes('WMS')) files = hkoWarningFileCandidates['WMSGNL'];
+                else if (combined.includes('FIRER') || combined.includes('RED FIRE')) files = hkoWarningFileCandidates['WFIRER'];
+                else if (combined.includes('FIREY') || combined.includes('YELLOW FIRE')) files = hkoWarningFileCandidates['WFIREY'];
+                else if (combined.includes('RAINA') || combined.includes('AMBER')) files = hkoWarningFileCandidates['WRAINA'];
+                else if (combined.includes('RAINR') || combined.includes('RED RAIN')) files = hkoWarningFileCandidates['WRAINR'];
+                else if (combined.includes('RAINB') || combined.includes('BLACK RAIN')) files = hkoWarningFileCandidates['WRAINB'];
+                else if (combined.includes('THUNDER') || combined.includes('WTS')) files = hkoWarningFileCandidates['WTS'];
+                else if (combined.includes('HOT')) files = hkoWarningFileCandidates['WHOT'];
+                else if (combined.includes('COLD')) files = hkoWarningFileCandidates['WCOLD'];
+                else if (combined.includes('LANDSLIP')) files = hkoWarningFileCandidates['WLAND'];
+                else if (combined.includes('FROST')) files = hkoWarningFileCandidates['WFROST'];
+            }
+            const safeName = (name || '').replace(/'/g, "\\'");
+            if (files && files.length > 0) {
+                const firstUrl = HKO_WARN_BASE + files[0];
+                // 2x enlarged square HKO warning icon filling the expanded 15% height alert pane
+                return `<img src="${firstUrl}" data-files="${files.join(',')}" data-idx="0" alt="${safeName}" title="${safeName}" referrerpolicy="no-referrer" onerror="tryAltHkoImg(this, '${cleanCode}', '${safeName}')" class="h-full max-h-[13.5dvh] w-auto aspect-square object-contain rounded-lg bg-white p-0.5 shadow-md shrink-0">`;
+            }
+            return getFallbackBadge(cleanCode, name);
         }
 
         const fetchWithTimeout = (url, ms = 8000, headers = {}) => {
@@ -766,7 +802,7 @@
                     return { temp, rh, pop, iconClass };
                 };
 
-                // --- 1. Current Weather Panel ---
+                // --- 1. Current Weather Panel (2x Bigger Weather Icon: text-6xl md:text-7xl) ---
                 const currMetrics = getSlotData(currentHour, 0);
 
                 let displayCurrTemp = currMetrics.temp;
@@ -783,11 +819,11 @@
                 document.getElementById('curr-pop-badge').textContent = `${currMetrics.pop}%`;
 
                 if (weatherComMap && currMetrics.iconClass) {
-                    document.getElementById('weather-icon').className = `fa-solid ${currMetrics.iconClass} text-3xl md:text-4xl drop-shadow-lg shrink-0`;
+                    document.getElementById('weather-icon').className = `fa-solid ${currMetrics.iconClass} text-6xl md:text-7xl drop-shadow-lg shrink-0`;
                 } else if (rhrEn.icon && rhrEn.icon.length > 0) {
-                    document.getElementById('weather-icon').className = `fa-solid ${getFontAwesomeIcon(rhrEn.icon[0])} text-3xl md:text-4xl drop-shadow-lg shrink-0`;
+                    document.getElementById('weather-icon').className = `fa-solid ${getFontAwesomeIcon(rhrEn.icon[0])} text-6xl md:text-7xl drop-shadow-lg shrink-0`;
                 } else {
-                    document.getElementById('weather-icon').className = `fa-solid ${currMetrics.iconClass} text-3xl md:text-4xl drop-shadow-lg shrink-0`;
+                    document.getElementById('weather-icon').className = `fa-solid ${currMetrics.iconClass} text-6xl md:text-7xl drop-shadow-lg shrink-0`;
                 }
 
                 // --- 2. Weather Warnings Banner ---
@@ -798,13 +834,17 @@
                 if (warnSum && typeof warnSum === 'object') {
                     Object.keys(warnSum).forEach(key => {
                         const item = warnSum[key];
-                        if (item && item.code) activeBadges.push(renderWarningBadge(item.code, item.name || key));
-                        else if (item && item.actionCode === "ISSUE") activeBadges.push(renderWarningBadge(key, key));
+                        if (item && item.actionCode !== 'CANCEL') {
+                            const warnCode = item.code || item.subtype || key;
+                            const warnName = item.name || item.type || key;
+                            activeBadges.push(renderWarningBadge(warnCode, warnName));
+                        }
                     });
                 }
 
                 if (activeBadges.length === 0 && rhrEn.warningMessage && rhrEn.warningMessage.length > 0) {
                     const msg = rhrEn.warningMessage.join(' ');
+                    if (msg.includes('Strong Monsoon')) activeBadges.push(renderWarningBadge('WMSGNL', 'Strong Monsoon Signal'));
                     if (msg.includes('Yellow Fire')) activeBadges.push(renderWarningBadge('WFIREY', 'Yellow Fire'));
                     if (msg.includes('Red Fire')) activeBadges.push(renderWarningBadge('WFIRER', 'Red Fire'));
                     if (msg.includes('Amber Rainstorm')) activeBadges.push(renderWarningBadge('WRAINA', 'Amber Rain'));
@@ -822,10 +862,10 @@
                     alertIconsList.innerHTML = activeBadges.join('');
                 } else {
                     alertContainer.classList.remove('has-warning');
-                    alertIconsList.innerHTML = `<div class="flex items-center gap-1.5 text-slate-300 text-xs font-medium bg-slate-800/60 px-2.5 py-1 rounded-lg border border-slate-700/50 whitespace-nowrap"><i class="fa-solid fa-shield-halved text-emerald-400 text-xs"></i><span>No active signals</span></div>`;
+                    alertIconsList.innerHTML = `<div class="flex items-center gap-2 text-slate-300 text-sm md:text-base font-semibold bg-slate-800/60 px-3 py-1.5 rounded-xl border border-slate-700/50 whitespace-nowrap"><i class="fa-solid fa-shield-halved text-emerald-400 text-base md:text-lg"></i><span>No active signals</span></div>`;
                 }
 
-                // --- 3. Forecast Cards (12:00 Today, 18:00 Tonight, 08:00 Tomorrow) ---
+                // --- 3. Forecast Cards (2x Bigger Icons: text-5xl md:text-6xl) ---
                 const cardAft = document.getElementById('card-aft');
                 if (currentHour >= 12) {
                     cardAft.classList.add('opacity-0', 'pointer-events-none');
@@ -835,7 +875,7 @@
                     document.getElementById('f1-temp').textContent = `${m12.temp}°C`;
                     document.getElementById('f1-rh').textContent = `${m12.rh}% RH`;
                     document.getElementById('f1-psr').textContent = `${m12.pop}%`;
-                    document.getElementById('f1-icon').className = `fa-solid ${m12.iconClass} text-2xl md:text-3xl drop-shadow`;
+                    document.getElementById('f1-icon').className = `fa-solid ${m12.iconClass} text-5xl md:text-6xl drop-shadow`;
                 }
 
                 const cardNight = document.getElementById('card-night');
@@ -847,14 +887,14 @@
                     document.getElementById('f2-temp').textContent = `${m18.temp}°C`;
                     document.getElementById('f2-rh').textContent = `${m18.rh}% RH`;
                     document.getElementById('f2-psr').textContent = `${m18.pop}%`;
-                    document.getElementById('f2-icon').className = `fa-solid ${m18.iconClass} text-2xl md:text-3xl drop-shadow`;
+                    document.getElementById('f2-icon').className = `fa-solid ${m18.iconClass} text-5xl md:text-6xl drop-shadow`;
                 }
 
                 const mTmr8 = getSlotData(8, 1);
                 document.getElementById('f3-temp').textContent = `${mTmr8.temp}°C`;
                 document.getElementById('f3-rh').textContent = `${mTmr8.rh}% RH`;
                 document.getElementById('f3-psr').textContent = `${mTmr8.pop}%`;
-                document.getElementById('f3-icon').className = `fa-solid ${mTmr8.iconClass} text-2xl md:text-3xl drop-shadow`;
+                document.getElementById('f3-icon').className = `fa-solid ${mTmr8.iconClass} text-5xl md:text-6xl drop-shadow`;
 
                 syncStatusEl.textContent = `Upd ${now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Hong_Kong' })}`;
             } catch (error) {
